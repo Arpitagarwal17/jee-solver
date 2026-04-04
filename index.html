@@ -7,7 +7,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <script>
 window.MathJax = {
-  tex: { inlineMath: [['\\(','\\)'],['$','$']], displayMath: [['\\[','\\]'],['$$','$$']], processEscapes: true },
+  tex: {
+    inlineMath: [['\\(','\\)'],['$','$']],
+    displayMath: [['\\[','\\]'],['$$','$$']],
+    processEscapes: true,
+    tags: 'none'
+  },
   options: { skipHtmlTags: ['script','noscript','style','textarea'] },
   startup: { typeset: false }
 };
@@ -18,37 +23,32 @@ window.MathJax = {
 :root{
   --or:#e8612a;--ord:#c9501f;--orl:rgba(232,97,42,0.09);
   --font:'Syne',sans-serif;--mono:'DM Mono',monospace;
-  --bg:#ffffff;--bg2:#f7f6f3;--bg3:#f0ede8;
-  --text:#1a1a1a;--text2:#5a5a5a;--text3:#9a9a9a;
-  --border:rgba(0,0,0,0.1);--border2:rgba(0,0,0,0.06);
-  --success-bg:#edfaf3;--success-text:#1a7a4a;
-  --danger-bg:#fdf0f0;--danger-text:#c0392b;
+  --bg:#0f0f0f;--bg2:#1a1a1a;--bg3:#222222;
+  --text:#f0f0f0;--text2:#a0a0a0;--text3:#555555;
+  --border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.04);
+  --success-bg:rgba(74,222,128,0.1);--success-text:#4ade80;
+  --danger-bg:rgba(248,113,113,0.1);--danger-text:#f87171;
 }
-@media(prefers-color-scheme:dark){:root{
-  --bg:#1a1a1a;--bg2:#242424;--bg3:#2e2e2e;
-  --text:#f0f0f0;--text2:#a0a0a0;--text3:#606060;
-  --border:rgba(255,255,255,0.1);--border2:rgba(255,255,255,0.06);
-  --success-bg:#0d2e1a;--success-text:#4ade80;
-  --danger-bg:#2e1010;--danger-text:#f87171;
-}}
 body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:100vh}
-.wrap{max-width:740px;margin:0 auto;padding:2rem 1.25rem}
+.wrap{max-width:760px;margin:0 auto;padding:2rem 1.25rem 4rem}
 
+/* HEADER */
 .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:2.5rem}
 .brand{display:flex;align-items:center;gap:12px}
-.logo-sq{width:42px;height:42px;border-radius:12px;background:var(--or);display:grid;place-items:center;flex-shrink:0}
+.logo-sq{width:44px;height:44px;border-radius:12px;background:var(--or);display:grid;place-items:center;flex-shrink:0}
 .logo-sq svg{width:22px;height:22px;stroke:white;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.bname{font-size:22px;font-weight:700;color:var(--text);letter-spacing:-0.6px}
+.bname{font-size:23px;font-weight:700;color:var(--text);letter-spacing:-0.6px}
 .bsub{font-size:11px;color:var(--text3);margin-top:2px;font-family:var(--mono)}
-.arpit{font-size:12px;font-weight:500;color:var(--text3);font-family:var(--mono);letter-spacing:.3px}
+.arpit{font-size:11px;color:var(--text3);font-family:var(--mono);letter-spacing:.3px}
 
+/* SUBJECT TABS */
 .subj-row{display:flex;gap:6px;margin-bottom:1.5rem;flex-wrap:wrap}
-.sbt{padding:7px 20px;border-radius:20px;font-size:13px;font-weight:600;border:0.5px solid var(--border);background:var(--bg);color:var(--text2);cursor:pointer;transition:all .15s}
+.sbt{padding:7px 20px;border-radius:20px;font-size:13px;font-weight:600;border:0.5px solid var(--border);background:transparent;color:var(--text2);cursor:pointer;transition:all .15s}
 .sbt:hover{border-color:var(--or);color:var(--or)}
 .sbt.on{background:var(--or);color:white;border-color:var(--or)}
 
-.card{background:var(--bg);border:0.5px solid var(--border);border-radius:20px;padding:1.5rem;margin-bottom:1rem}
-
+/* INPUT CARD */
+.card{background:var(--bg2);border:0.5px solid var(--border);border-radius:20px;padding:1.5rem;margin-bottom:1rem}
 .mode-row{display:flex;gap:6px;margin-bottom:1.1rem}
 .md{display:flex;align-items:center;gap:5px;padding:7px 16px;border-radius:10px;font-size:12px;font-weight:600;border:0.5px solid var(--border);background:transparent;color:var(--text2);cursor:pointer;transition:all .13s;font-family:var(--font)}
 .md svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2}
@@ -64,6 +64,7 @@ textarea.qi::placeholder{color:var(--text3);font-weight:400}
 .sbtn:disabled{background:var(--bg3);color:var(--text3);cursor:not-allowed;transform:none}
 .sbtn svg{width:15px;height:15px;fill:white}
 
+/* UPLOAD */
 .upzone{border:1.5px dashed var(--border);border-radius:14px;padding:2.5rem;text-align:center;cursor:pointer;transition:all .15s}
 .upzone:hover,.upzone.drag{border-color:var(--or);background:var(--orl)}
 .upzone svg{width:30px;height:30px;stroke:var(--text3);fill:none;stroke-width:1.5;display:block;margin:0 auto 12px}
@@ -71,15 +72,16 @@ textarea.qi::placeholder{color:var(--text3);font-weight:400}
 .upzone span{font-size:11px;color:var(--text3);font-family:var(--mono);margin-top:5px;display:block}
 .upzone input{display:none}
 .pw{display:none}
-.pw img{width:100%;max-height:240px;object-fit:contain;border-radius:12px;border:0.5px solid var(--border)}
-.subt{width:100%;min-height:48px;resize:none;font-size:13px;font-family:var(--font);border:0.5px solid var(--border);border-radius:10px;padding:9px 12px;background:var(--bg);color:var(--text);outline:none;margin-top:10px}
+.pw img{width:100%;max-height:260px;object-fit:contain;border-radius:12px;border:0.5px solid var(--border)}
+.subt{width:100%;min-height:48px;resize:none;font-size:13px;font-family:var(--font);border:0.5px solid var(--border);border-radius:10px;padding:9px 12px;background:var(--bg3);color:var(--text);outline:none;margin-top:10px}
 .rmv{display:inline-flex;align-items:center;gap:4px;margin-top:8px;font-size:12px;color:var(--text3);cursor:pointer;background:none;border:none;font-family:var(--font)}
 .rmv:hover{color:var(--danger-text)}
 
-.sol-card{background:var(--bg);border:0.5px solid var(--border);border-radius:20px;overflow:hidden;margin-bottom:1rem;animation:up .25s ease}
-@keyframes up{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+/* SOLUTION CARD */
+.sol-card{background:var(--bg2);border:0.5px solid var(--border);border-radius:20px;overflow:hidden;margin-bottom:1rem;animation:up .3s ease}
+@keyframes up{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
-.sh{padding:14px 1.5rem;border-bottom:0.5px solid var(--border2);display:flex;align-items:center;justify-content:space-between}
+.sh{padding:14px 1.5rem;border-bottom:0.5px solid var(--border);display:flex;align-items:center;justify-content:space-between}
 .sh-l{display:flex;align-items:center;gap:8px}
 .sh-title{font-size:14px;font-weight:700;color:var(--text)}
 .pill{padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600}
@@ -91,23 +93,44 @@ textarea.qi::placeholder{color:var(--text3);font-weight:400}
 .ab:hover{border-color:var(--or);color:var(--or)}
 .ab.ok{color:var(--success-text);border-color:var(--success-text)}
 
+/* LOADING DOTS */
 .dots{display:flex;align-items:center;gap:6px;padding:1.75rem 1.5rem}
 .dot{width:7px;height:7px;border-radius:50%;background:var(--or);animation:pp 1.2s ease-in-out infinite}
 .dot:nth-child(2){animation-delay:.2s}
 .dot:nth-child(3){animation-delay:.4s}
 @keyframes pp{0%,80%,100%{opacity:.15;transform:scale(.7)}40%{opacity:1;transform:scale(1)}}
 
+/* SOLUTION BODY */
 .sb{padding:1.5rem;font-size:14px;line-height:1.9;color:var(--text)}
-.sb h3{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.8px;margin:14px 0 6px}
-.sb h3:first-child{margin-top:0}
-.sb p{margin-bottom:10px}
-.sb ul,.sb ol{padding-left:1.25rem;margin-bottom:10px}
-.sb li{margin-bottom:6px}
-.sb code{font-family:var(--mono);font-size:12px;background:var(--bg2);padding:2px 6px;border-radius:4px}
-.sb pre{background:var(--bg2);padding:12px;border-radius:10px;overflow-x:auto;margin-bottom:10px;font-size:13px}
-.ahl{background:var(--orl);border-left:3px solid var(--or);padding:12px 16px;margin:14px 0;font-weight:700;font-size:15px;border-radius:0 10px 10px 0;font-family:var(--mono);color:var(--text)}
-.mjx-chtml{font-size:105%!important}
 
+.concept-line{background:rgba(232,97,42,0.06);border-left:3px solid var(--or);padding:10px 14px;border-radius:0 8px 8px 0;margin-bottom:1.25rem;font-size:13px;color:var(--text2)}
+.concept-line strong{color:var(--or);font-weight:600}
+
+.step-row{display:flex;gap:10px;margin:8px 0;align-items:flex-start;line-height:1.75}
+.step-num{color:var(--or);font-weight:700;font-family:var(--mono);font-size:13px;min-width:22px;flex-shrink:0;padding-top:1px}
+.step-content{flex:1;color:var(--text)}
+
+.option-row{display:flex;gap:10px;margin:7px 0;align-items:flex-start;padding:8px 12px;border-radius:8px;background:var(--bg3);border:0.5px solid var(--border)}
+.option-correct{background:rgba(74,222,128,0.06);border-color:rgba(74,222,128,0.2)}
+.option-wrong{background:rgba(248,113,113,0.04);border-color:rgba(248,113,113,0.1)}
+.opt-label{font-weight:700;font-family:var(--mono);font-size:13px;min-width:28px;flex-shrink:0}
+.opt-correct .opt-label{color:var(--success-text)}
+.opt-wrong .opt-label{color:var(--danger-text)}
+.opt-mark{font-size:12px;min-width:16px;flex-shrink:0}
+.opt-text{flex:1;font-size:13px;color:var(--text2)}
+
+.ans-box{background:var(--orl);border:0.5px solid rgba(232,97,42,0.3);border-radius:12px;padding:14px 18px;margin-top:1.25rem;display:flex;align-items:center;gap:10px}
+.ans-arrow{color:var(--or);font-size:18px;font-weight:700;flex-shrink:0}
+.ans-text{font-weight:700;font-size:15px;color:var(--text);font-family:var(--mono)}
+
+.sb p{margin-bottom:10px}
+.sb h3{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.8px;margin:14px 0 6px}
+.sb code{font-family:var(--mono);font-size:12px;background:var(--bg3);padding:2px 6px;border-radius:4px}
+.sb pre{background:var(--bg3);padding:12px;border-radius:10px;overflow-x:auto;margin:10px 0;font-size:13px}
+.mjx-chtml{overflow-x:auto}
+.display-math{text-align:center;margin:12px 0;overflow-x:auto;padding:4px 0}
+
+/* HISTORY */
 .hist-wrap{margin-top:1.5rem}
 .ht{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
 .hl{font-size:11px;font-family:var(--mono);color:var(--text3);text-transform:uppercase;letter-spacing:.6px}
@@ -115,17 +138,18 @@ textarea.qi::placeholder{color:var(--text3);font-weight:400}
 .hc:hover{color:var(--danger-text)}
 .hi-list{display:flex;flex-direction:column;gap:5px}
 .hi{padding:11px 14px;background:var(--bg2);border-radius:12px;cursor:pointer;border:0.5px solid transparent;transition:all .13s}
-.hi:hover{background:var(--bg);border-color:var(--border)}
+.hi:hover{border-color:var(--border);background:var(--bg3)}
 .hi-q{font-size:13px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .hi-m{font-size:11px;color:var(--text3);font-family:var(--mono);margin-top:3px}
 
 .err{padding:12px 16px;background:var(--danger-bg);color:var(--danger-text);border-radius:12px;font-size:13px;margin-bottom:1rem;font-weight:500;display:none}
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:10px 20px;border-radius:10px;font-size:13px;font-weight:500;opacity:0;transition:opacity .3s;pointer-events:none;z-index:999;font-family:var(--font)}
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:10px 20px;border-radius:10px;font-size:13px;font-weight:600;opacity:0;transition:opacity .3s;pointer-events:none;z-index:999;font-family:var(--font);white-space:nowrap}
 .toast.show{opacity:1}
 </style>
 </head>
 <body>
 <div class="wrap">
+
   <div class="top">
     <div class="brand">
       <div class="logo-sq">
@@ -172,8 +196,8 @@ textarea.qi::placeholder{color:var(--text3);font-weight:400}
         <span>JPG · PNG · WEBP</span>
       </div>
       <div class="pw" id="pw">
-        <img id="pthumb" src="" alt="uploaded question">
-        <textarea class="subt" id="iq" placeholder="Specific question about this image? (optional)"></textarea>
+        <img id="pthumb" src="" alt="question">
+        <textarea class="subt" id="iq" placeholder="Specific question? (optional)"></textarea>
         <br>
         <button class="rmv" onclick="rmI()">
           <svg style="width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
@@ -222,16 +246,15 @@ textarea.qi::placeholder{color:var(--text3);font-weight:400}
     </div>
     <div class="hi-list" id="histlist"></div>
   </div>
-</div>
 
+</div>
 <div class="toast" id="toast"></div>
 
 <script>
-const WH = "https://arpit17062000.app.n8n.cloud/webhook/jee-solve";
-let mode='text', subj='All', iB64=null, hist=[], lastS='';
+const WH="https://arpit17062000.app.n8n.cloud/webhook/jee-solve";
+let mode='text',subj='All',iB64=null,hist=[],lastS='';
 
 function setSub(el,s){document.querySelectorAll('.sbt').forEach(t=>t.classList.remove('on'));el.classList.add('on');subj=s}
-
 function setMode(m){
   mode=m;
   ['text','image'].forEach(x=>{
@@ -243,7 +266,6 @@ function setMode(m){
     document.getElementById('pw').style.display=iB64?'block':'none';
   }
 }
-
 function dov(e){e.preventDefault();document.getElementById('upzone').classList.add('drag')}
 function dlv(e){document.getElementById('upzone').classList.remove('drag')}
 function ddrop(e){e.preventDefault();const f=e.dataTransfer.files[0];if(f)pf(f);document.getElementById('upzone').classList.remove('drag')}
@@ -265,31 +287,89 @@ function rmI(){
   document.getElementById('upzone').style.display='block';
   document.getElementById('imgf').value='';
 }
+function showToast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500)}
+function showErr(m){const e=document.getElementById('errd');e.textContent=m;e.style.display='block';setTimeout(()=>e.style.display='none',5000)}
 
-function showToast(m){
-  const t=document.getElementById('toast');
-  t.textContent=m;t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),2500);
-}
-function showErr(m){
-  const e=document.getElementById('errd');
-  e.textContent=m;e.style.display='block';
-  setTimeout(()=>e.style.display='none',5000);
+function renderSolution(raw){
+  const lines=raw.split('\n');
+  let html='';
+  let stepCounter=0;
+
+  for(let i=0;i<lines.length;i++){
+    const line=lines[i].trim();
+    if(!line)continue;
+
+    // Concept line
+    if(line.startsWith('**Concept/Formula Used:**')||line.startsWith('**Concept:')||line.startsWith('Concept/Formula Used:')){
+      const content=line.replace(/\*\*Concept\/Formula Used:\*\*/,'').replace(/\*\*Concept:/,'').replace('Concept/Formula Used:','').trim();
+      html+=`<div class="concept-line"><strong>Concept:</strong> ${content}</div>`;
+      continue;
+    }
+
+    // Answer line
+    if(line.match(/^\*\*Answer:/i)||line.match(/^Answer:/i)){
+      const content=line.replace(/\*\*Answer:\*\*/i,'').replace(/^Answer:/i,'').trim();
+      html+=`<div class="ans-box"><span class="ans-arrow">⟹</span><span class="ans-text">${content}</span></div>`;
+      continue;
+    }
+
+    // Option lines (A) ✓ or (A) ✗
+    const optMatch=line.match(/^\(([A-D])\)\s*(✓|✗|CORRECT|INCORRECT|correct|incorrect)\s*[—-]?\s*(.*)/);
+    if(optMatch){
+      const letter=optMatch[1];
+      const isCorrect=optMatch[2]==='✓'||optMatch[2].toUpperCase()==='CORRECT';
+      const reason=optMatch[3];
+      const cls=isCorrect?'option-correct':'option-wrong';
+      const mark=isCorrect?'✓':'✗';
+      const markColor=isCorrect?'var(--success-text)':'var(--danger-text)';
+      html+=`<div class="option-row ${cls}">
+        <span class="opt-label" style="color:${markColor}">(${letter})</span>
+        <span class="opt-mark" style="color:${markColor}">${mark}</span>
+        <span class="opt-text">${renderInline(reason)}</span>
+      </div>`;
+      continue;
+    }
+
+    // Numbered steps — match "1." "2." etc
+    const stepMatch=line.match(/^(\d+)\.\s+(.+)/);
+    if(stepMatch){
+      stepCounter++;
+      html+=`<div class="step-row">
+        <span class="step-num">${stepMatch[1]}.</span>
+        <span class="step-content">${renderInline(stepMatch[2])}</span>
+      </div>`;
+      continue;
+    }
+
+    // Display math \[ ... \]
+    if(line.startsWith('\\[')||line.startsWith('$$')){
+      html+=`<div class="display-math">${line}</div>`;
+      continue;
+    }
+
+    // Bold headings
+    if(line.startsWith('###')||line.startsWith('##')){
+      html+=`<h3>${line.replace(/^#+\s*/,'')}</h3>`;
+      continue;
+    }
+
+    // Bullet points
+    if(line.startsWith('- ')||line.startsWith('• ')){
+      html+=`<div class="step-row"><span class="step-num">•</span><span class="step-content">${renderInline(line.slice(2))}</span></div>`;
+      continue;
+    }
+
+    // Regular line
+    html+=`<p>${renderInline(line)}</p>`;
+  }
+  return html;
 }
 
-function renderMd(t){
+function renderInline(t){
   return t
-    .replace(/```[\w]*\n?([\s\S]+?)```/g,'<pre><code>$1</code></pre>')
-    .replace(/\*\*(?:Answer|Ans|Final Answer):\*\*\s*(.+)/g,'<div class="ahl">&#10233; $1</div>')
-    .replace(/\\\[(.+?)\\\]/gs,'<div style="text-align:center;margin:12px 0">\\[$1\\]</div>')
     .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
     .replace(/\*(.+?)\*/g,'<em>$1</em>')
-    .replace(/`([^`]+)`/g,'<code>$1</code>')
-    .replace(/^#{1,3}\s+(.+)$/gm,'<h3>$1</h3>')
-    .replace(/^[-]\s+(.+)$/gm,'<li>$1</li>')
-    .replace(/^\d+\.\s+(.+)$/gm,'<li>$1</li>')
-    .replace(/(<li>.*<\/li>\n?)+/g,m=>'<ol>'+m+'</ol>')
-    .replace(/\n{2,}/g,'</p><p>');
+    .replace(/`([^`]+)`/g,'<code>$1</code>');
 }
 
 function addH(q){
@@ -313,10 +393,7 @@ function cpSol(){
   navigator.clipboard.writeText(lastS).then(()=>{
     const b=document.getElementById('cpbtn');
     b.classList.add('ok');b.textContent='Copied!';
-    setTimeout(()=>{
-      b.classList.remove('ok');
-      b.innerHTML='<svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy';
-    },2000);
+    setTimeout(()=>{b.classList.remove('ok');b.innerHTML='<svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy'},2000);
   });
 }
 function shSol(){
@@ -360,7 +437,7 @@ async function solve(){
     if(!res.ok)throw new Error(data.message||'Server error');
     lastS=data.solution||'';
     dots.style.display='none';
-    body.innerHTML='<p>'+renderMd(lastS)+'</p>';
+    body.innerHTML=renderSolution(lastS);
     body.style.display='block';
     addH(qt);
     if(window.MathJax){
