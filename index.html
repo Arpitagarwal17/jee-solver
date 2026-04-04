@@ -331,15 +331,15 @@ function renderSolution(raw){
     }
 
     // Numbered steps — match "1." "2." etc
-    const stepMatch=line.match(/^(\d+)\.\s+(.+)/);
-    if(stepMatch){
-      stepCounter++;
-      html+=`<div class="step-row">
-        <span class="step-num">${stepMatch[1]}.</span>
-        <span class="step-content">${renderInline(stepMatch[2])}</span>
-      </div>`;
-      continue;
-    }
+   const stepMatch=line.match(/^(\d+)\.\s+(.+)/);
+if(stepMatch){
+  stepCounter++;
+  html+=`<div class="step-row">
+    <span class="step-num">${stepCounter}.</span>
+    <span class="step-content">${renderInline(stepMatch[2])}</span>
+  </div>`;
+  continue;
+}
 
     // Display math \[ ... \]
     if(line.startsWith('\\[')||line.startsWith('$$')){
