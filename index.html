@@ -290,39 +290,69 @@ function rmI(){
 function showToast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500)}
 function showErr(m){const e=document.getElementById('errd');e.textContent=m;e.style.display='block';setTimeout(()=>e.style.display='none',5000)}
 
-function renderSolution(raw){
-  const lines=raw.split('\n');
-  let html='';
-  let stepCounter=0;
+function renderSolution(raw) {
+  const lines = raw.split('\n');
+  let html = '';
+  let stepCounter = 0;
+  
+  // Variables to handle multi-line LaTeX blocks
+  let inMathBlock = false;
+  let mathBuffer = [];
 
-  for(let i=0;i<lines.length;i++){
-    const line=lines[i].trim();
-    if(!line)continue;
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i].trim();
+
+    // 1. If we are currently inside a multi-line Math block, keep buffering
+    if (inMathBlock) {
+      mathBuffer.push(lines[i]); // Push original line to preserve formatting
+      // Check if this line closes the math block
+      if (line === '$$' || line === '\\]' || line.endsWith('$$') || line.endsWith('\\]')) {
+        html += `<div class="display-math">${mathBuffer.join('\n')}</div>`;
+        inMathBlock = false; // Reset state
+        mathBuffer = [];     // Clear buffer
+      }
+      continue;
+    }
+
+    // 2. Check if a Math block is starting
+    if (line.startsWith('$$') || line.startsWith('\\[')) {
+      // Check if it opens AND closes on the exact same line
+      if ((line.startsWith('$$') && line.length > 2 && line.endsWith('$$')) || 
+          (line.startsWith('\\[') && line.endsWith('\\]'))) {
+        html += `<div class="display-math">${line}</div>`;
+      } else {
+        inMathBlock = true;
+        mathBuffer.push(lines[i]);
+      }
+      continue;
+    }
+
+    if (!line) continue;
 
     // Concept line
-    if(line.startsWith('**Concept/Formula Used:**')||line.startsWith('**Concept:')||line.startsWith('Concept/Formula Used:')){
-      const content=line.replace(/\*\*Concept\/Formula Used:\*\*/,'').replace(/\*\*Concept:/,'').replace('Concept/Formula Used:','').trim();
-      html+=`<div class="concept-line"><strong>Concept:</strong> ${content}</div>`;
+    if (line.startsWith('**Concept/Formula Used:**') || line.startsWith('**Concept:') || line.startsWith('Concept/Formula Used:')) {
+      const content = line.replace(/\*\*Concept\/Formula Used:\*\*/, '').replace(/\*\*Concept:/, '').replace('Concept/Formula Used:', '').trim();
+      html += `<div class="concept-line"><strong>Concept:</strong> ${content}</div>`;
       continue;
     }
 
     // Answer line
-    if(line.match(/^\*\*Answer:/i)||line.match(/^Answer:/i)){
-      const content=line.replace(/\*\*Answer:\*\*/i,'').replace(/^Answer:/i,'').trim();
-      html+=`<div class="ans-box"><span class="ans-arrow">⟹</span><span class="ans-text">${content}</span></div>`;
+    if (line.match(/^\*\*Answer:/i) || line.match(/^Answer:/i)) {
+      const content = line.replace(/\*\*Answer:\*\*/i, '').replace(/^Answer:/i, '').trim();
+      html += `<div class="ans-box"><span class="ans-arrow">⟹</span><span class="ans-text">${content}</span></div>`;
       continue;
     }
 
     // Option lines (A) ✓ or (A) ✗
-    const optMatch=line.match(/^\(([A-D])\)\s*(✓|✗|CORRECT|INCORRECT|correct|incorrect)\s*[—-]?\s*(.*)/);
-    if(optMatch){
-      const letter=optMatch[1];
-      const isCorrect=optMatch[2]==='✓'||optMatch[2].toUpperCase()==='CORRECT';
-      const reason=optMatch[3];
-      const cls=isCorrect?'option-correct':'option-wrong';
-      const mark=isCorrect?'✓':'✗';
-      const markColor=isCorrect?'var(--success-text)':'var(--danger-text)';
-      html+=`<div class="option-row ${cls}">
+    const optMatch = line.match(/^\(([A-D])\)\s*(✓|✗|CORRECT|INCORRECT|correct|incorrect)\s*[—-]?\s*(.*)/);
+    if (optMatch) {
+      const letter = optMatch[1];
+      const isCorrect = optMatch[2] === '✓' || optMatch[2].toUpperCase() === 'CORRECT';
+      const reason = optMatch[3];
+      const cls = isCorrect ? 'option-correct' : 'option-wrong';
+      const mark = isCorrect ? '✓' : '✗';
+      const markColor = isCorrect ? 'var(--success-text)' : 'var(--danger-text)';
+      html += `<div class="option-row ${cls}">
         <span class="opt-label" style="color:${markColor}">(${letter})</span>
         <span class="opt-mark" style="color:${markColor}">${mark}</span>
         <span class="opt-text">${renderInline(reason)}</span>
@@ -330,38 +360,38 @@ function renderSolution(raw){
       continue;
     }
 
-    // Numbered steps — match "1." "2." etc
-   const stepMatch=line.match(/^(\d+)\.\s+(.+)/);
-if(stepMatch){
-  stepCounter++;
-  html+=`<div class="step-row">
-    <span class="step-num">${stepCounter}.</span>
-    <span class="step-content">${renderInline(stepMatch[2])}</span>
-  </div>`;
-  continue;
-}
-
-    // Display math \[ ... \]
-    if(line.startsWith('\\[')||line.startsWith('$$')){
-      html+=`<div class="display-math">${line}</div>`;
+    // Numbered steps
+    const stepMatch = line.match(/^(\d+)\.\s+(.+)/);
+    if (stepMatch) {
+      stepCounter++;
+      html += `<div class="step-row">
+        <span class="step-num">${stepCounter}.</span>
+        <span class="step-content">${renderInline(stepMatch[2])}</span>
+      </div>`;
       continue;
     }
 
     // Bold headings
-    if(line.startsWith('###')||line.startsWith('##')){
-      html+=`<h3>${line.replace(/^#+\s*/,'')}</h3>`;
+    if (line.startsWith('###') || line.startsWith('##')) {
+      html += `<h3>${line.replace(/^#+\s*/, '')}</h3>`;
       continue;
     }
 
     // Bullet points
-    if(line.startsWith('- ')||line.startsWith('• ')){
-      html+=`<div class="step-row"><span class="step-num">•</span><span class="step-content">${renderInline(line.slice(2))}</span></div>`;
+    if (line.startsWith('- ') || line.startsWith('• ')) {
+      html += `<div class="step-row"><span class="step-num">•</span><span class="step-content">${renderInline(line.slice(2))}</span></div>`;
       continue;
     }
 
     // Regular line
-    html+=`<p>${renderInline(line)}</p>`;
+    html += `<p>${renderInline(line)}</p>`;
   }
+  
+  // Failsafe: if the math block never closed, flush it out
+  if (inMathBlock && mathBuffer.length > 0) {
+      html += `<div class="display-math">${mathBuffer.join('\n')}</div>`;
+  }
+  
   return html;
 }
 
@@ -440,7 +470,10 @@ async function solve(){
     body.innerHTML=renderSolution(lastS);
     body.style.display='block';
     addH(qt);
+    
+    // Updated MathJax Execution Block
     if(window.MathJax){
+      MathJax.typesetClear([body]); // Clears old queue to prevent caching issues
       MathJax.typesetPromise([body]).catch(e=>console.log('MathJax:',e));
     }
   } catch(e){
