@@ -20,51 +20,68 @@ window.MathJax = {
 <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
+
+/* DEFAULT DARK THEME */
 :root{
-  --or:#e8612a;--ord:#c9501f;--orl:rgba(232,97,42,0.09);
+  --or:#e8612a;--ord:#c9501f;
   --font:'Syne',sans-serif;--mono:'DM Mono',monospace;
   --bg:#0f0f0f;--bg2:#1a1a1a;--bg3:#222222;
   --text:#f0f0f0;--text2:#a0a0a0;--text3:#555555;
   --border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.04);
   --success-bg:rgba(74,222,128,0.1);--success-text:#4ade80;
   --danger-bg:rgba(248,113,113,0.1);--danger-text:#f87171;
+  --orl:rgba(232,97,42,0.09);
 }
-body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:100vh}
+
+/* LIGHT THEME OVERRIDES */
+[data-theme="light"] {
+  --bg:#fafafa;--bg2:#ffffff;--bg3:#f0f0f0;
+  --text:#111111;--text2:#555555;--text3:#888888;
+  --border:rgba(0,0,0,0.08);--border2:rgba(0,0,0,0.04);
+  --success-bg:rgba(22,163,74,0.1);--success-text:#16a34a;
+  --danger-bg:rgba(220,38,38,0.1);--danger-text:#dc2626;
+  --orl:rgba(232,97,42,0.12);
+}
+
+body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:100vh;transition:background 0.3s, color 0.3s;}
 .wrap{max-width:760px;margin:0 auto;padding:2rem 1.25rem 4rem}
 
-/* HEADER */
 .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:2.5rem}
 .brand{display:flex;align-items:center;gap:12px}
 .logo-sq{width:44px;height:44px;border-radius:12px;background:var(--or);display:grid;place-items:center;flex-shrink:0}
 .logo-sq svg{width:22px;height:22px;stroke:white;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 .bname{font-size:23px;font-weight:700;color:var(--text);letter-spacing:-0.6px}
 .bsub{font-size:11px;color:var(--text3);margin-top:2px;font-family:var(--mono)}
-.arpit{font-size:11px;color:var(--text3);font-family:var(--mono);letter-spacing:.3px}
 
-/* SUBJECT TABS */
+.top-actions {display:flex; align-items:center; gap: 15px;}
+.arpit{font-size:11px;color:var(--text3);font-family:var(--mono);letter-spacing:.3px}
+.theme-btn{background:none;border:none;color:var(--text2);cursor:pointer;display:grid;place-items:center;padding:5px;border-radius:8px;transition:all 0.2s}
+.theme-btn:hover{color:var(--or);background:var(--bg3)}
+
 .subj-row{display:flex;gap:6px;margin-bottom:1.5rem;flex-wrap:wrap}
 .sbt{padding:7px 20px;border-radius:20px;font-size:13px;font-weight:600;border:0.5px solid var(--border);background:transparent;color:var(--text2);cursor:pointer;transition:all .15s}
 .sbt:hover{border-color:var(--or);color:var(--or)}
 .sbt.on{background:var(--or);color:white;border-color:var(--or)}
 
-/* INPUT CARD */
-.card{background:var(--bg2);border:0.5px solid var(--border);border-radius:20px;padding:1.5rem;margin-bottom:1rem}
+.card{background:var(--bg2);border:0.5px solid var(--border);border-radius:20px;padding:1.5rem;margin-bottom:1rem;transition: opacity 0.2s, background 0.3s, border-color 0.3s}
+.card.disabled {opacity: 0.6; pointer-events: none;}
+
 .mode-row{display:flex;gap:6px;margin-bottom:1.1rem}
 .md{display:flex;align-items:center;gap:5px;padding:7px 16px;border-radius:10px;font-size:12px;font-weight:600;border:0.5px solid var(--border);background:transparent;color:var(--text2);cursor:pointer;transition:all .13s;font-family:var(--font)}
 .md svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2}
 .md:hover,.md.on{border-color:var(--or);color:var(--or);background:var(--orl)}
 
-textarea.qi{width:100%;min-height:100px;resize:none;font-size:15px;font-family:var(--font);font-weight:500;color:var(--text);background:transparent;border:none;outline:none;line-height:1.65}
+textarea.qi{width:100%;min-height:100px;resize:none;font-size:15px;font-family:var(--font);font-weight:500;color:var(--text);background:transparent;border:none;outline:none;line-height:1.65; overflow-y:hidden}
 textarea.qi::placeholder{color:var(--text3);font-weight:400}
 
 .div{height:0.5px;background:var(--border2);margin:14px 0}
-.foot-row{display:flex;align-items:center;justify-content:flex-end}
+.foot-row{display:flex;align-items:center;justify-content:space-between} 
+.shortcut-hint {font-size: 11px; color: var(--text3); font-family: var(--mono); opacity: 0.7;}
 .sbtn{display:flex;align-items:center;gap:8px;padding:11px 28px;background:var(--or);color:white;border:none;border-radius:12px;font-size:14px;font-weight:700;font-family:var(--font);cursor:pointer;transition:all .15s}
 .sbtn:hover{background:var(--ord);transform:translateY(-1px)}
 .sbtn:disabled{background:var(--bg3);color:var(--text3);cursor:not-allowed;transform:none}
 .sbtn svg{width:15px;height:15px;fill:white}
 
-/* UPLOAD */
 .upzone{border:1.5px dashed var(--border);border-radius:14px;padding:2.5rem;text-align:center;cursor:pointer;transition:all .15s}
 .upzone:hover,.upzone.drag{border-color:var(--or);background:var(--orl)}
 .upzone svg{width:30px;height:30px;stroke:var(--text3);fill:none;stroke-width:1.5;display:block;margin:0 auto 12px}
@@ -77,39 +94,33 @@ textarea.qi::placeholder{color:var(--text3);font-weight:400}
 .rmv{display:inline-flex;align-items:center;gap:4px;margin-top:8px;font-size:12px;color:var(--text3);cursor:pointer;background:none;border:none;font-family:var(--font)}
 .rmv:hover{color:var(--danger-text)}
 
-/* SOLUTION CARD */
-.sol-card{background:var(--bg2);border:0.5px solid var(--border);border-radius:20px;overflow:hidden;margin-bottom:1rem;animation:up .3s ease}
+.sol-card{background:var(--bg2);border:0.5px solid var(--border);border-radius:20px;overflow:hidden;margin-bottom:1rem;animation:up .3s ease; transition: background 0.3s, border-color 0.3s}
 @keyframes up{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
 
-.sh{padding:14px 1.5rem;border-bottom:0.5px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.sh{padding:14px 1.5rem;border-bottom:0.5px solid var(--border);display:flex;align-items:center;justify-content:space-between; flex-wrap: wrap; gap: 10px;}
 .sh-l{display:flex;align-items:center;gap:8px}
 .sh-title{font-size:14px;font-weight:700;color:var(--text)}
 .pill{padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600}
 .pill.g{background:var(--success-bg);color:var(--success-text)}
 .pill.o{background:var(--orl);color:var(--or)}
-.sh-r{display:flex;gap:5px}
+.sh-r{display:flex;gap:5px; flex-wrap: wrap;}
 .ab{display:flex;align-items:center;gap:4px;padding:6px 12px;border:0.5px solid var(--border);border-radius:8px;font-size:11px;font-weight:600;color:var(--text2);cursor:pointer;background:transparent;transition:all .13s;font-family:var(--font)}
 .ab svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2}
 .ab:hover{border-color:var(--or);color:var(--or)}
 .ab.ok{color:var(--success-text);border-color:var(--success-text)}
 
-/* LOADING DOTS */
 .dots{display:flex;align-items:center;gap:6px;padding:1.75rem 1.5rem}
 .dot{width:7px;height:7px;border-radius:50%;background:var(--or);animation:pp 1.2s ease-in-out infinite}
 .dot:nth-child(2){animation-delay:.2s}
 .dot:nth-child(3){animation-delay:.4s}
 @keyframes pp{0%,80%,100%{opacity:.15;transform:scale(.7)}40%{opacity:1;transform:scale(1)}}
 
-/* SOLUTION BODY */
 .sb{padding:1.5rem;font-size:14px;line-height:1.9;color:var(--text)}
-
 .concept-line{background:rgba(232,97,42,0.06);border-left:3px solid var(--or);padding:10px 14px;border-radius:0 8px 8px 0;margin-bottom:1.25rem;font-size:13px;color:var(--text2)}
 .concept-line strong{color:var(--or);font-weight:600}
-
 .step-row{display:flex;gap:10px;margin:8px 0;align-items:flex-start;line-height:1.75}
 .step-num{color:var(--or);font-weight:700;font-family:var(--mono);font-size:13px;min-width:22px;flex-shrink:0;padding-top:1px}
 .step-content{flex:1;color:var(--text)}
-
 .option-row{display:flex;gap:10px;margin:7px 0;align-items:flex-start;padding:8px 12px;border-radius:8px;background:var(--bg3);border:0.5px solid var(--border)}
 .option-correct{background:rgba(74,222,128,0.06);border-color:rgba(74,222,128,0.2)}
 .option-wrong{background:rgba(248,113,113,0.04);border-color:rgba(248,113,113,0.1)}
@@ -118,11 +129,9 @@ textarea.qi::placeholder{color:var(--text3);font-weight:400}
 .opt-wrong .opt-label{color:var(--danger-text)}
 .opt-mark{font-size:12px;min-width:16px;flex-shrink:0}
 .opt-text{flex:1;font-size:13px;color:var(--text2)}
-
 .ans-box{background:var(--orl);border:0.5px solid rgba(232,97,42,0.3);border-radius:12px;padding:14px 18px;margin-top:1.25rem;display:flex;align-items:center;gap:10px}
 .ans-arrow{color:var(--or);font-size:18px;font-weight:700;flex-shrink:0}
 .ans-text{font-weight:700;font-size:15px;color:var(--text);font-family:var(--mono)}
-
 .sb p{margin-bottom:10px}
 .sb h3{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.8px;margin:14px 0 6px}
 .sb code{font-family:var(--mono);font-size:12px;background:var(--bg3);padding:2px 6px;border-radius:4px}
@@ -130,7 +139,6 @@ textarea.qi::placeholder{color:var(--text3);font-weight:400}
 .mjx-chtml{overflow-x:auto}
 .display-math{text-align:center;margin:12px 0;overflow-x:auto;padding:4px 0}
 
-/* HISTORY */
 .hist-wrap{margin-top:1.5rem}
 .ht{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
 .hl{font-size:11px;font-family:var(--mono);color:var(--text3);text-transform:uppercase;letter-spacing:.6px}
@@ -145,6 +153,16 @@ textarea.qi::placeholder{color:var(--text3);font-weight:400}
 .err{padding:12px 16px;background:var(--danger-bg);color:var(--danger-text);border-radius:12px;font-size:13px;margin-bottom:1rem;font-weight:500;display:none}
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:10px 20px;border-radius:10px;font-size:13px;font-weight:600;opacity:0;transition:opacity .3s;pointer-events:none;z-index:999;font-family:var(--font);white-space:nowrap}
 .toast.show{opacity:1}
+
+/* PRINT STYLES - Hides everything except the solution card */
+@media print {
+  body { background: white; color: black; }
+  body * { visibility: hidden; }
+  #solcard, #solcard * { visibility: visible; }
+  #solcard { position: absolute; left: 0; top: 0; width: 100%; border: none; box-shadow: none; background: white; }
+  .sh-r { display: none; } /* Hide copy/share/print buttons */
+  .sb, .sh-title, .step-content, .ans-text { color: black !important; }
+}
 </style>
 </head>
 <body>
@@ -162,7 +180,15 @@ textarea.qi::placeholder{color:var(--text3);font-weight:400}
         <div class="bsub">Physics · Chemistry · Mathematics</div>
       </div>
     </div>
-    <div class="arpit">by Arpit Agarwal</div>
+    
+    <div class="top-actions">
+      <button class="theme-btn" id="themeToggle" onclick="toggleTheme()" title="Toggle Theme">
+        <svg id="theme-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+      <div class="arpit">by Arpit Agarwal</div>
+    </div>
   </div>
 
   <div class="subj-row">
@@ -172,7 +198,7 @@ textarea.qi::placeholder{color:var(--text3);font-weight:400}
     <div class="sbt" onclick="setSub(this,'Chemistry')">Chemistry</div>
   </div>
 
-  <div class="card">
+  <div class="card" id="main-card">
     <div class="mode-row">
       <button class="md on" id="m-text" onclick="setMode('text')">
         <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
@@ -208,6 +234,7 @@ textarea.qi::placeholder{color:var(--text3);font-weight:400}
 
     <div class="div"></div>
     <div class="foot-row">
+      <span class="shortcut-hint" id="shortcut-hint">Ctrl + Enter to solve</span>
       <button class="sbtn" id="sbtn" onclick="solve()">
         Solve
         <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -225,6 +252,10 @@ textarea.qi::placeholder{color:var(--text3);font-weight:400}
         <span class="pill o">JEE concise</span>
       </div>
       <div class="sh-r">
+        <button class="ab" onclick="window.print()">
+          <svg viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+          Save PDF
+        </button>
         <button class="ab" id="cpbtn" onclick="cpSol()">
           <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           Copy
@@ -252,7 +283,53 @@ textarea.qi::placeholder{color:var(--text3);font-weight:400}
 
 <script>
 const WH="https://arpit17062000.app.n8n.cloud/webhook/jee-solve";
-let mode='text',subj='All',iB64=null,hist=[],lastS='';
+let mode='text',subj='All',iB64=null,lastS='';
+let hist = JSON.parse(localStorage.getItem('jee_history')) || [];
+
+// Feature: Theme Management
+function initTheme() {
+  const savedTheme = localStorage.getItem('jee_theme') || 'dark';
+  document.documentElement.setAttribute('data-theme', savedTheme);
+  updateThemeIcon(savedTheme);
+}
+function toggleTheme() {
+  const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+  const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', newTheme);
+  localStorage.setItem('jee_theme', newTheme);
+  updateThemeIcon(newTheme);
+}
+function updateThemeIcon(theme) {
+  const icon = document.getElementById('theme-icon');
+  if (theme === 'light') {
+    icon.innerHTML = '<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>';
+  } else {
+    icon.innerHTML = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>';
+  }
+}
+
+window.onload = function() {
+  initTheme();
+  rH();
+  setupTextareas();
+};
+
+function setupTextareas() {
+  const textareas = document.querySelectorAll('textarea');
+  textareas.forEach(ta => {
+    ta.addEventListener('input', function() {
+      this.style.height = 'auto';
+      this.style.height = (this.scrollHeight) + 'px';
+    });
+  });
+}
+
+document.addEventListener('keydown', function(e) {
+  if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+    if(!document.getElementById('sbtn').disabled) solve();
+  }
+});
+
 
 function setSub(el,s){document.querySelectorAll('.sbt').forEach(t=>t.classList.remove('on'));el.classList.add('on');subj=s}
 function setMode(m){
@@ -264,6 +341,9 @@ function setMode(m){
   if(m==='image'){
     document.getElementById('upzone').style.display=iB64?'none':'block';
     document.getElementById('pw').style.display=iB64?'block':'none';
+    document.getElementById('shortcut-hint').style.display='none';
+  } else {
+    document.getElementById('shortcut-hint').style.display='inline';
   }
 }
 function dov(e){e.preventDefault();document.getElementById('upzone').classList.add('drag')}
@@ -294,29 +374,23 @@ function renderSolution(raw) {
   const lines = raw.split('\n');
   let html = '';
   let stepCounter = 0;
-  
-  // Variables to handle multi-line LaTeX blocks
   let inMathBlock = false;
   let mathBuffer = [];
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i].trim();
 
-    // 1. If we are currently inside a multi-line Math block, keep buffering
     if (inMathBlock) {
-      mathBuffer.push(lines[i]); // Push original line to preserve formatting
-      // Check if this line closes the math block
+      mathBuffer.push(lines[i]); 
       if (line === '$$' || line === '\\]' || line.endsWith('$$') || line.endsWith('\\]')) {
         html += `<div class="display-math">${mathBuffer.join('\n')}</div>`;
-        inMathBlock = false; // Reset state
-        mathBuffer = [];     // Clear buffer
+        inMathBlock = false; 
+        mathBuffer = [];     
       }
       continue;
     }
 
-    // 2. Check if a Math block is starting
     if (line.startsWith('$$') || line.startsWith('\\[')) {
-      // Check if it opens AND closes on the exact same line
       if ((line.startsWith('$$') && line.length > 2 && line.endsWith('$$')) || 
           (line.startsWith('\\[') && line.endsWith('\\]'))) {
         html += `<div class="display-math">${line}</div>`;
@@ -329,21 +403,18 @@ function renderSolution(raw) {
 
     if (!line) continue;
 
-    // Concept line
     if (line.startsWith('**Concept/Formula Used:**') || line.startsWith('**Concept:') || line.startsWith('Concept/Formula Used:')) {
       const content = line.replace(/\*\*Concept\/Formula Used:\*\*/, '').replace(/\*\*Concept:/, '').replace('Concept/Formula Used:', '').trim();
       html += `<div class="concept-line"><strong>Concept:</strong> ${content}</div>`;
       continue;
     }
 
-    // Answer line
     if (line.match(/^\*\*Answer:/i) || line.match(/^Answer:/i)) {
       const content = line.replace(/\*\*Answer:\*\*/i, '').replace(/^Answer:/i, '').trim();
       html += `<div class="ans-box"><span class="ans-arrow">⟹</span><span class="ans-text">${content}</span></div>`;
       continue;
     }
 
-    // Option lines (A) ✓ or (A) ✗
     const optMatch = line.match(/^\(([A-D])\)\s*(✓|✗|CORRECT|INCORRECT|correct|incorrect)\s*[—-]?\s*(.*)/);
     if (optMatch) {
       const letter = optMatch[1];
@@ -360,7 +431,6 @@ function renderSolution(raw) {
       continue;
     }
 
-    // Numbered steps
     const stepMatch = line.match(/^(\d+)\.\s+(.+)/);
     if (stepMatch) {
       stepCounter++;
@@ -371,27 +441,22 @@ function renderSolution(raw) {
       continue;
     }
 
-    // Bold headings
     if (line.startsWith('###') || line.startsWith('##')) {
       html += `<h3>${line.replace(/^#+\s*/, '')}</h3>`;
       continue;
     }
 
-    // Bullet points
     if (line.startsWith('- ') || line.startsWith('• ')) {
       html += `<div class="step-row"><span class="step-num">•</span><span class="step-content">${renderInline(line.slice(2))}</span></div>`;
       continue;
     }
 
-    // Regular line
     html += `<p>${renderInline(line)}</p>`;
   }
   
-  // Failsafe: if the math block never closed, flush it out
   if (inMathBlock && mathBuffer.length > 0) {
       html += `<div class="display-math">${mathBuffer.join('\n')}</div>`;
   }
-  
   return html;
 }
 
@@ -405,8 +470,10 @@ function renderInline(t){
 function addH(q){
   hist.unshift({q:q.length>65?q.slice(0,65)+'...':q,s:subj,t:new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})});
   if(hist.length>8)hist.pop();
+  localStorage.setItem('jee_history', JSON.stringify(hist)); 
   rH();
 }
+
 function rH(){
   const w=document.getElementById('histwrap');
   if(!hist.length){w.style.display='none';return;}
@@ -415,8 +482,19 @@ function rH(){
     `<div class="hi" onclick="lH(${i})"><div class="hi-q">${h.q}</div><div class="hi-m">${h.s} · ${h.t}</div></div>`
   ).join('');
 }
-function lH(i){setMode('text');document.getElementById('qinput').value=hist[i].q}
-function clH(){hist=[];rH()}
+
+function lH(i){
+  setMode('text');
+  const input = document.getElementById('qinput');
+  input.value=hist[i].q;
+  input.dispatchEvent(new Event('input'));
+}
+
+function clH(){
+  hist=[];
+  localStorage.removeItem('jee_history');
+  rH();
+}
 
 function cpSol(){
   if(!lastS)return;
@@ -433,6 +511,7 @@ function shSol(){
 
 async function solve(){
   const btn=document.getElementById('sbtn');
+  const mainCard=document.getElementById('main-card');
   const card=document.getElementById('solcard');
   const body=document.getElementById('solbody');
   const dots=document.getElementById('ldots');
@@ -450,7 +529,9 @@ async function solve(){
   }
 
   btn.disabled=true;
+  mainCard.classList.add('disabled');
   btn.innerHTML='Solving...';
+  
   card.style.display='block';
   body.style.display='none';
   dots.style.display='flex';
@@ -471,19 +552,19 @@ async function solve(){
     body.style.display='block';
     addH(qt);
     
-    // Updated MathJax Execution Block
     if(window.MathJax){
-      MathJax.typesetClear([body]); // Clears old queue to prevent caching issues
+      MathJax.typesetClear([body]);
       MathJax.typesetPromise([body]).catch(e=>console.log('MathJax:',e));
     }
   } catch(e){
     dots.style.display='none';
     body.innerHTML='<p style="color:var(--danger-text)">'+e.message+'</p>';
     body.style.display='block';
+  } finally {
+    btn.disabled=false;
+    mainCard.classList.remove('disabled');
+    btn.innerHTML='Solve <svg viewBox="0 0 24 24" style="width:15px;height:15px;fill:white"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
   }
-
-  btn.disabled=false;
-  btn.innerHTML='Solve <svg viewBox="0 0 24 24" style="width:15px;height:15px;fill:white"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
 }
 </script>
 </body>
