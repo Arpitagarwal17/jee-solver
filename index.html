@@ -71,8 +71,16 @@ body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:1
 .md svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2}
 .md:hover,.md.on{border-color:var(--or);color:var(--or);background:var(--orl)}
 
-textarea.qi{width:100%;min-height:100px;resize:none;font-size:15px;font-family:var(--font);font-weight:500;color:var(--text);background:transparent;border:none;outline:none;line-height:1.65; overflow-y:hidden}
+/* Added relative positioning for mic button */
+.input-wrapper { position: relative; width: 100%; }
+textarea.qi{width:100%;min-height:100px;resize:none;font-size:15px;font-family:var(--font);font-weight:500;color:var(--text);background:transparent;border:none;outline:none;line-height:1.65; overflow-y:hidden; padding-bottom: 30px;}
 textarea.qi::placeholder{color:var(--text3);font-weight:400}
+
+/* Mic Button Styles */
+.mic-btn { position: absolute; bottom: 5px; right: 5px; background: var(--bg3); border: 0.5px solid var(--border); border-radius: 50%; width: 32px; height: 32px; display: grid; place-items: center; cursor: pointer; color: var(--text2); transition: all 0.2s; }
+.mic-btn:hover { color: var(--or); border-color: var(--or); }
+.mic-btn.recording { background: rgba(248,113,113,0.1); color: var(--danger-text); border-color: var(--danger-text); animation: pulse 1.5s infinite; }
+@keyframes pulse { 0% {box-shadow: 0 0 0 0 rgba(248,113,113,0.4);} 70% {box-shadow: 0 0 0 10px rgba(248,113,113,0);} 100% {box-shadow: 0 0 0 0 rgba(248,113,113,0);} }
 
 .div{height:0.5px;background:var(--border2);margin:14px 0}
 .foot-row{display:flex;align-items:center;justify-content:space-between} 
@@ -82,12 +90,18 @@ textarea.qi::placeholder{color:var(--text3);font-weight:400}
 .sbtn:disabled{background:var(--bg3);color:var(--text3);cursor:not-allowed;transform:none}
 .sbtn svg{width:15px;height:15px;fill:white}
 
-.upzone{border:1.5px dashed var(--border);border-radius:14px;padding:2.5rem;text-align:center;cursor:pointer;transition:all .15s}
+.upzone{border:1.5px dashed var(--border);border-radius:14px;padding:2.5rem;text-align:center;cursor:pointer;transition:all .15s; position: relative; overflow: hidden;}
 .upzone:hover,.upzone.drag{border-color:var(--or);background:var(--orl)}
 .upzone svg{width:30px;height:30px;stroke:var(--text3);fill:none;stroke-width:1.5;display:block;margin:0 auto 12px}
 .upzone p{font-size:14px;font-weight:600;color:var(--text2)}
 .upzone span{font-size:11px;color:var(--text3);font-family:var(--mono);margin-top:5px;display:block}
 .upzone input{display:none}
+
+/* Compression Loader */
+.compressing-overlay { position: absolute; inset: 0; background: var(--bg2); display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
+.compressing-overlay.active { opacity: 0.9; pointer-events: auto; z-index: 10; }
+.compressing-text { font-size: 12px; color: var(--or); font-weight: 600; margin-top: 10px; }
+
 .pw{display:none}
 .pw img{width:100%;max-height:260px;object-fit:contain;border-radius:12px;border:0.5px solid var(--border)}
 .subt{width:100%;min-height:48px;resize:none;font-size:13px;font-family:var(--font);border:0.5px solid var(--border);border-radius:10px;padding:9px 12px;background:var(--bg3);color:var(--text);outline:none;margin-top:10px}
@@ -154,13 +168,12 @@ textarea.qi::placeholder{color:var(--text3);font-weight:400}
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:10px 20px;border-radius:10px;font-size:13px;font-weight:600;opacity:0;transition:opacity .3s;pointer-events:none;z-index:999;font-family:var(--font);white-space:nowrap}
 .toast.show{opacity:1}
 
-/* PRINT STYLES - Hides everything except the solution card */
 @media print {
   body { background: white; color: black; }
   body * { visibility: hidden; }
   #solcard, #solcard * { visibility: visible; }
   #solcard { position: absolute; left: 0; top: 0; width: 100%; border: none; box-shadow: none; background: white; }
-  .sh-r { display: none; } /* Hide copy/share/print buttons */
+  .sh-r { display: none; }
   .sb, .sh-title, .step-content, .ans-text { color: black !important; }
 }
 </style>
@@ -211,7 +224,17 @@ textarea.qi::placeholder{color:var(--text3);font-weight:400}
     </div>
 
     <div id="p-text">
-      <textarea class="qi" id="qinput" placeholder="Ask anything — integration, Newton's laws, organic chemistry..."></textarea>
+      <div class="input-wrapper">
+        <textarea class="qi" id="qinput" placeholder="Ask anything — integration, Newton's laws, organic chemistry..."></textarea>
+        <button class="mic-btn" id="mic-btn" onclick="toggleSpeech()" title="Dictate question">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+            <line x1="12" y1="19" x2="12" y2="23"></line>
+            <line x1="8" y1="23" x2="16" y2="23"></line>
+          </svg>
+        </button>
+      </div>
     </div>
 
     <div id="p-image" style="display:none">
@@ -219,8 +242,14 @@ textarea.qi::placeholder{color:var(--text3);font-weight:400}
         <input type="file" id="imgf" accept="image/*" onchange="hf(event)">
         <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
         <p>Click or drag your question image</p>
-        <span>JPG · PNG · WEBP</span>
+        <span>JPG · PNG · WEBP (Auto-compressed)</span>
+        
+        <div class="compressing-overlay" id="comp-overlay">
+          <div class="dot" style="animation-delay: 0s;"></div>
+          <div class="compressing-text">Optimizing image...</div>
+        </div>
       </div>
+
       <div class="pw" id="pw">
         <img id="pthumb" src="" alt="question">
         <textarea class="subt" id="iq" placeholder="Specific question? (optional)"></textarea>
@@ -286,7 +315,90 @@ const WH="https://arpit17062000.app.n8n.cloud/webhook/jee-solve";
 let mode='text',subj='All',iB64=null,lastS='';
 let hist = JSON.parse(localStorage.getItem('jee_history')) || [];
 
-// Feature: Theme Management
+// SPEECH TO TEXT API
+let recognition;
+let isRecording = false;
+
+if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  recognition = new SpeechRecognition();
+  recognition.continuous = false;
+  recognition.interimResults = true;
+  
+  recognition.onresult = function(event) {
+    let finalTranscript = '';
+    for (let i = event.resultIndex; i < event.results.length; ++i) {
+      if (event.results[i].isFinal) {
+        finalTranscript += event.results[i][0].transcript;
+      }
+    }
+    if (finalTranscript) {
+      const input = document.getElementById('qinput');
+      input.value += (input.value.length > 0 ? ' ' : '') + finalTranscript;
+      input.dispatchEvent(new Event('input')); // trigger resize
+    }
+  };
+
+  recognition.onend = function() {
+    isRecording = false;
+    document.getElementById('mic-btn').classList.remove('recording');
+  };
+} else {
+  // Hide mic button if browser doesn't support it (e.g., Firefox without flags)
+  window.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('mic-btn').style.display = 'none';
+  });
+}
+
+function toggleSpeech() {
+  if (!recognition) return;
+  const btn = document.getElementById('mic-btn');
+  if (isRecording) {
+    recognition.stop();
+  } else {
+    recognition.start();
+    isRecording = true;
+    btn.classList.add('recording');
+  }
+}
+
+// CLIENT-SIDE IMAGE COMPRESSION (Canvas)
+function compressImage(file, callback) {
+  document.getElementById('comp-overlay').classList.add('active');
+  
+  const reader = new FileReader();
+  reader.readAsDataURL(file);
+  reader.onload = event => {
+    const img = new Image();
+    img.src = event.target.result;
+    img.onload = () => {
+      // Scale down if wider than 1200px (Plenty for AI to read)
+      const MAX_WIDTH = 1200;
+      let width = img.width;
+      let height = img.height;
+      
+      if (width > MAX_WIDTH) {
+        height = Math.round((height * MAX_WIDTH) / width);
+        width = MAX_WIDTH;
+      }
+
+      const canvas = document.createElement('canvas');
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, width, height);
+      
+      // Output highly compressed JPEG
+      const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.8);
+      const base64Data = compressedDataUrl.split(',')[1];
+      
+      document.getElementById('comp-overlay').classList.remove('active');
+      callback(base64Data, compressedDataUrl);
+    };
+  };
+}
+
+// THEME TOGGLE
 function initTheme() {
   const savedTheme = localStorage.getItem('jee_theme') || 'dark';
   document.documentElement.setAttribute('data-theme', savedTheme);
@@ -350,16 +462,17 @@ function dov(e){e.preventDefault();document.getElementById('upzone').classList.a
 function dlv(e){document.getElementById('upzone').classList.remove('drag')}
 function ddrop(e){e.preventDefault();const f=e.dataTransfer.files[0];if(f)pf(f);document.getElementById('upzone').classList.remove('drag')}
 function hf(e){const f=e.target.files[0];if(f)pf(f)}
+
 function pf(f){
-  const r=new FileReader();
-  r.onload=e=>{
-    iB64=e.target.result.split(',')[1];
-    document.getElementById('pthumb').src=e.target.result;
+  // Using the new compression pipeline
+  compressImage(f, (base64, dataUrl) => {
+    iB64 = base64;
+    document.getElementById('pthumb').src = dataUrl;
     document.getElementById('upzone').style.display='none';
     document.getElementById('pw').style.display='block';
-  };
-  r.readAsDataURL(f);
+  });
 }
+
 function rmI(){
   iB64=null;
   document.getElementById('pthumb').src='';
@@ -552,6 +665,9 @@ async function solve(){
     body.style.display='block';
     addH(qt);
     
+    // Add light vibration on mobile for success
+    if (navigator.vibrate) navigator.vibrate(50);
+    
     if(window.MathJax){
       MathJax.typesetClear([body]);
       MathJax.typesetPromise([body]).catch(e=>console.log('MathJax:',e));
@@ -560,6 +676,8 @@ async function solve(){
     dots.style.display='none';
     body.innerHTML='<p style="color:var(--danger-text)">'+e.message+'</p>';
     body.style.display='block';
+    // Add error vibration pattern on mobile
+    if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
   } finally {
     btn.disabled=false;
     mainCard.classList.remove('disabled');
