@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>JEE Solver — by Arpit Agarwal</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=DM+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <script>
 window.MathJax = {
   tex: {
@@ -25,148 +25,171 @@ window.MathJax = {
 :root{
   --or:#e8612a;--ord:#c9501f;
   --font:'Syne',sans-serif;--mono:'DM Mono',monospace;
-  --bg:#0f0f0f;--bg2:#1a1a1a;--bg3:#222222;
-  --text:#f0f0f0;--text2:#a0a0a0;--text3:#555555;
-  --border:rgba(255,255,255,0.08);--border2:rgba(255,255,255,0.04);
-  --success-bg:rgba(74,222,128,0.1);--success-text:#4ade80;
-  --danger-bg:rgba(248,113,113,0.1);--danger-text:#f87171;
-  --orl:rgba(232,97,42,0.09);
+  --bg:#0a0a0a;--bg2:#141414;--bg3:#1f1f1f;
+  --text:#f4f4f5;--text2:#a1a1aa;--text3:#71717a;
+  --border:rgba(255,255,255,0.1);--border2:rgba(255,255,255,0.05);
+  --success-bg:rgba(74,222,128,0.1);--success-border:rgba(74,222,128,0.2);--success-text:#4ade80;
+  --danger-bg:rgba(248,113,113,0.1);--danger-border:rgba(248,113,113,0.2);--danger-text:#f87171;
+  --orl:rgba(232,97,42,0.1);
+  --shadow: 0 4px 20px rgba(0,0,0,0.2);
 }
 
 /* LIGHT THEME OVERRIDES */
 [data-theme="light"] {
-  --bg:#fafafa;--bg2:#ffffff;--bg3:#f0f0f0;
-  --text:#111111;--text2:#555555;--text3:#888888;
-  --border:rgba(0,0,0,0.08);--border2:rgba(0,0,0,0.04);
-  --success-bg:rgba(22,163,74,0.1);--success-text:#16a34a;
-  --danger-bg:rgba(220,38,38,0.1);--danger-text:#dc2626;
-  --orl:rgba(232,97,42,0.12);
+  --bg:#f8fafc;--bg2:#ffffff;--bg3:#f1f5f9;
+  --text:#0f172a;--text2:#475569;--text3:#94a3b8;
+  --border:rgba(0,0,0,0.1);--border2:rgba(0,0,0,0.05);
+  --success-bg:rgba(22,163,74,0.1);--success-border:rgba(22,163,74,0.2);--success-text:#16a34a;
+  --danger-bg:rgba(220,38,38,0.1);--danger-border:rgba(220,38,38,0.2);--danger-text:#dc2626;
+  --orl:rgba(232,97,42,0.1);
+  --shadow: 0 4px 20px rgba(0,0,0,0.05);
 }
 
 body{background:var(--bg);color:var(--text);font-family:var(--font);min-height:100vh;transition:background 0.3s, color 0.3s;}
-.wrap{max-width:760px;margin:0 auto;padding:2rem 1.25rem 4rem}
+.wrap{max-width:780px;margin:0 auto;padding:2rem 1.25rem 4rem}
 
 .top{display:flex;align-items:center;justify-content:space-between;margin-bottom:2.5rem}
-.brand{display:flex;align-items:center;gap:12px}
-.logo-sq{width:44px;height:44px;border-radius:12px;background:var(--or);display:grid;place-items:center;flex-shrink:0}
-.logo-sq svg{width:22px;height:22px;stroke:white;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.bname{font-size:23px;font-weight:700;color:var(--text);letter-spacing:-0.6px}
-.bsub{font-size:11px;color:var(--text3);margin-top:2px;font-family:var(--mono)}
+.brand{display:flex;align-items:center;gap:14px}
+.logo-sq{width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg, var(--or), var(--ord));display:grid;place-items:center;flex-shrink:0;box-shadow: 0 4px 12px var(--orl);}
+.logo-sq svg{width:24px;height:24px;stroke:white;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
+.bname{font-size:24px;font-weight:700;color:var(--text);letter-spacing:-0.5px}
+.bsub{font-size:12px;color:var(--text3);margin-top:2px;font-family:var(--mono)}
 
 .top-actions {display:flex; align-items:center; gap: 15px;}
-.arpit{font-size:11px;color:var(--text3);font-family:var(--mono);letter-spacing:.3px}
-.theme-btn{background:none;border:none;color:var(--text2);cursor:pointer;display:grid;place-items:center;padding:5px;border-radius:8px;transition:all 0.2s}
-.theme-btn:hover{color:var(--or);background:var(--bg3)}
+.arpit{font-size:11px;color:var(--text3);font-family:var(--mono);letter-spacing:.3px; font-weight: 500;}
+.theme-btn{background:var(--bg2);border:1px solid var(--border);color:var(--text2);cursor:pointer;display:grid;place-items:center;padding:8px;border-radius:10px;transition:all 0.2s}
+.theme-btn:hover{color:var(--or);border-color:var(--or); box-shadow: 0 0 10px var(--orl);}
 
-.subj-row{display:flex;gap:6px;margin-bottom:1.5rem;flex-wrap:wrap}
-.sbt{padding:7px 20px;border-radius:20px;font-size:13px;font-weight:600;border:0.5px solid var(--border);background:transparent;color:var(--text2);cursor:pointer;transition:all .15s}
+.subj-row{display:flex;gap:8px;margin-bottom:1.5rem;flex-wrap:wrap}
+.sbt{padding:8px 22px;border-radius:24px;font-size:13px;font-weight:600;border:1px solid var(--border);background:var(--bg2);color:var(--text2);cursor:pointer;transition:all .2s; font-family: var(--font);}
 .sbt:hover{border-color:var(--or);color:var(--or)}
-.sbt.on{background:var(--or);color:white;border-color:var(--or)}
+.sbt.on{background:var(--or);color:white;border-color:var(--or); box-shadow: 0 4px 12px var(--orl);}
 
-.card{background:var(--bg2);border:0.5px solid var(--border);border-radius:20px;padding:1.5rem;margin-bottom:1rem;transition: opacity 0.2s, background 0.3s, border-color 0.3s}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:24px;padding:1.75rem;margin-bottom:1.5rem;box-shadow:var(--shadow);transition: opacity 0.2s, background 0.3s, border-color 0.3s}
 .card.disabled {opacity: 0.6; pointer-events: none;}
 
-.mode-row{display:flex;gap:6px;margin-bottom:1.1rem}
-.md{display:flex;align-items:center;gap:5px;padding:7px 16px;border-radius:10px;font-size:12px;font-weight:600;border:0.5px solid var(--border);background:transparent;color:var(--text2);cursor:pointer;transition:all .13s;font-family:var(--font)}
-.md svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2}
-.md:hover,.md.on{border-color:var(--or);color:var(--or);background:var(--orl)}
+.mode-row{display:flex;gap:8px;margin-bottom:1.25rem}
+.md{display:flex;align-items:center;gap:6px;padding:8px 18px;border-radius:12px;font-size:13px;font-weight:600;border:1px solid var(--border);background:var(--bg3);color:var(--text2);cursor:pointer;transition:all .2s;font-family:var(--font)}
+.md svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.2}
+.md:hover{border-color:var(--or);color:var(--or);}
+.md.on{border-color:var(--or);color:var(--or);background:var(--orl)}
 
-/* Added relative positioning for mic button */
 .input-wrapper { position: relative; width: 100%; }
-textarea.qi{width:100%;min-height:100px;resize:none;font-size:15px;font-family:var(--font);font-weight:500;color:var(--text);background:transparent;border:none;outline:none;line-height:1.65; overflow-y:hidden; padding-bottom: 30px;}
+textarea.qi{width:100%;min-height:120px;resize:none;font-size:16px;font-family:var(--font);font-weight:500;color:var(--text);background:var(--bg3);border:1px solid var(--border); border-radius: 16px; padding: 16px; outline:none;line-height:1.6; overflow-y:hidden; padding-bottom: 40px; transition: border-color 0.2s, box-shadow 0.2s;}
+textarea.qi:focus { border-color: var(--or); box-shadow: 0 0 0 3px var(--orl); }
 textarea.qi::placeholder{color:var(--text3);font-weight:400}
 
-/* Mic Button Styles */
-.mic-btn { position: absolute; bottom: 5px; right: 5px; background: var(--bg3); border: 0.5px solid var(--border); border-radius: 50%; width: 32px; height: 32px; display: grid; place-items: center; cursor: pointer; color: var(--text2); transition: all 0.2s; }
+.mic-btn { position: absolute; bottom: 12px; right: 12px; background: var(--bg2); border: 1px solid var(--border); border-radius: 50%; width: 36px; height: 36px; display: grid; place-items: center; cursor: pointer; color: var(--text2); transition: all 0.2s; }
 .mic-btn:hover { color: var(--or); border-color: var(--or); }
-.mic-btn.recording { background: rgba(248,113,113,0.1); color: var(--danger-text); border-color: var(--danger-text); animation: pulse 1.5s infinite; }
-@keyframes pulse { 0% {box-shadow: 0 0 0 0 rgba(248,113,113,0.4);} 70% {box-shadow: 0 0 0 10px rgba(248,113,113,0);} 100% {box-shadow: 0 0 0 0 rgba(248,113,113,0);} }
+.mic-btn.recording { background: rgba(248,113,113,0.15); color: var(--danger-text); border-color: var(--danger-text); animation: pulse 1.5s infinite; }
+@keyframes pulse { 0% {box-shadow: 0 0 0 0 rgba(248,113,113,0.4);} 70% {box-shadow: 0 0 0 12px rgba(248,113,113,0);} 100% {box-shadow: 0 0 0 0 rgba(248,113,113,0);} }
 
-.div{height:0.5px;background:var(--border2);margin:14px 0}
+.div{height:1px;background:var(--border2);margin:18px 0}
 .foot-row{display:flex;align-items:center;justify-content:space-between} 
-.shortcut-hint {font-size: 11px; color: var(--text3); font-family: var(--mono); opacity: 0.7;}
-.sbtn{display:flex;align-items:center;gap:8px;padding:11px 28px;background:var(--or);color:white;border:none;border-radius:12px;font-size:14px;font-weight:700;font-family:var(--font);cursor:pointer;transition:all .15s}
-.sbtn:hover{background:var(--ord);transform:translateY(-1px)}
-.sbtn:disabled{background:var(--bg3);color:var(--text3);cursor:not-allowed;transform:none}
-.sbtn svg{width:15px;height:15px;fill:white}
+.shortcut-hint {font-size: 12px; color: var(--text3); font-family: var(--mono); opacity: 0.8; font-weight: 500;}
+.shortcut-hint kbd { background: var(--bg3); padding: 3px 6px; border-radius: 4px; border: 1px solid var(--border); }
+.sbtn{display:flex;align-items:center;gap:8px;padding:12px 32px;background:linear-gradient(135deg, var(--or), var(--ord));color:white;border:none;border-radius:14px;font-size:15px;font-weight:700;font-family:var(--font);cursor:pointer;transition:all .2s; box-shadow: 0 4px 15px var(--orl);}
+.sbtn:hover{transform:translateY(-2px); box-shadow: 0 6px 20px rgba(232,97,42,0.25);}
+.sbtn:disabled{background:var(--bg3);color:var(--text3);cursor:not-allowed;transform:none; box-shadow:none;}
+.sbtn svg{width:16px;height:16px;fill:white}
 
-.upzone{border:1.5px dashed var(--border);border-radius:14px;padding:2.5rem;text-align:center;cursor:pointer;transition:all .15s; position: relative; overflow: hidden;}
+.upzone{border:2px dashed var(--border);background: var(--bg3);border-radius:16px;padding:3rem 2rem;text-align:center;cursor:pointer;transition:all .2s; position: relative; overflow: hidden;}
 .upzone:hover,.upzone.drag{border-color:var(--or);background:var(--orl)}
-.upzone svg{width:30px;height:30px;stroke:var(--text3);fill:none;stroke-width:1.5;display:block;margin:0 auto 12px}
-.upzone p{font-size:14px;font-weight:600;color:var(--text2)}
-.upzone span{font-size:11px;color:var(--text3);font-family:var(--mono);margin-top:5px;display:block}
+.upzone svg{width:36px;height:36px;stroke:var(--text3);fill:none;stroke-width:1.5;display:block;margin:0 auto 16px; transition: stroke 0.2s;}
+.upzone:hover svg {stroke: var(--or);}
+.upzone p{font-size:15px;font-weight:600;color:var(--text)}
+.upzone span{font-size:12px;color:var(--text3);font-family:var(--mono);margin-top:8px;display:block}
 .upzone input{display:none}
 
-/* Compression Loader */
-.compressing-overlay { position: absolute; inset: 0; background: var(--bg2); display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
-.compressing-overlay.active { opacity: 0.9; pointer-events: auto; z-index: 10; }
-.compressing-text { font-size: 12px; color: var(--or); font-weight: 600; margin-top: 10px; }
+.compressing-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
+[data-theme="light"] .compressing-overlay { background: rgba(255,255,255,0.8); }
+.compressing-overlay.active { opacity: 1; pointer-events: auto; z-index: 10; }
+.compressing-text { font-size: 13px; color: var(--or); font-weight: 600; margin-top: 12px; font-family: var(--mono); }
 
-.pw{display:none}
-.pw img{width:100%;max-height:260px;object-fit:contain;border-radius:12px;border:0.5px solid var(--border)}
-.subt{width:100%;min-height:48px;resize:none;font-size:13px;font-family:var(--font);border:0.5px solid var(--border);border-radius:10px;padding:9px 12px;background:var(--bg3);color:var(--text);outline:none;margin-top:10px}
-.rmv{display:inline-flex;align-items:center;gap:4px;margin-top:8px;font-size:12px;color:var(--text3);cursor:pointer;background:none;border:none;font-family:var(--font)}
-.rmv:hover{color:var(--danger-text)}
+.pw{display:none; position: relative;}
+.pw img{width:100%;max-height:300px;object-fit:contain;border-radius:16px;border:1px solid var(--border); background: var(--bg3);}
+.subt{width:100%;min-height:50px;resize:none;font-size:14px;font-family:var(--font);border:1px solid var(--border);border-radius:12px;padding:12px 16px;background:var(--bg3);color:var(--text);outline:none;margin-top:12px; transition: border-color 0.2s, box-shadow 0.2s;}
+.subt:focus {border-color: var(--or); box-shadow: 0 0 0 3px var(--orl);}
+.rmv{position: absolute; top: 10px; right: 10px; display:inline-flex;align-items:center;gap:6px;font-size:12px; font-weight: 600; color: white; cursor:pointer;background:rgba(0,0,0,0.6); backdrop-filter: blur(4px); border:none; padding: 6px 12px; border-radius: 20px; font-family:var(--font); transition: background 0.2s;}
+.rmv:hover{background:var(--danger-text);}
 
-.sol-card{background:var(--bg2);border:0.5px solid var(--border);border-radius:20px;overflow:hidden;margin-bottom:1rem;animation:up .3s ease; transition: background 0.3s, border-color 0.3s}
-@keyframes up{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+/* Premium Solution Card Styles */
+.sol-card{background:var(--bg2);border:1px solid var(--border);border-radius:24px;overflow:hidden;margin-bottom:2rem;box-shadow:var(--shadow);animation:up .4s cubic-bezier(0.16, 1, 0.3, 1); transition: background 0.3s, border-color 0.3s}
+@keyframes up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 
-.sh{padding:14px 1.5rem;border-bottom:0.5px solid var(--border);display:flex;align-items:center;justify-content:space-between; flex-wrap: wrap; gap: 10px;}
-.sh-l{display:flex;align-items:center;gap:8px}
-.sh-title{font-size:14px;font-weight:700;color:var(--text)}
-.pill{padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600}
-.pill.g{background:var(--success-bg);color:var(--success-text)}
-.pill.o{background:var(--orl);color:var(--or)}
-.sh-r{display:flex;gap:5px; flex-wrap: wrap;}
-.ab{display:flex;align-items:center;gap:4px;padding:6px 12px;border:0.5px solid var(--border);border-radius:8px;font-size:11px;font-weight:600;color:var(--text2);cursor:pointer;background:transparent;transition:all .13s;font-family:var(--font)}
-.ab svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2}
-.ab:hover{border-color:var(--or);color:var(--or)}
+.sh{padding:18px 2rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between; flex-wrap: wrap; gap: 12px; background: var(--bg3);}
+.sh-l{display:flex;align-items:center;gap:10px}
+.sh-title{font-size:16px;font-weight:700;color:var(--text)}
+.pill{padding:4px 12px;border-radius:20px;font-size:12px;font-weight:700; font-family: var(--mono);}
+.pill.g{background:var(--success-bg);color:var(--success-text); border: 1px solid var(--success-border);}
+.pill.o{background:var(--orl);color:var(--or); border: 1px solid rgba(232,97,42,0.2);}
+.sh-r{display:flex;gap:8px; flex-wrap: wrap;}
+.ab{display:flex;align-items:center;gap:6px;padding:8px 14px;border:1px solid var(--border);border-radius:10px;font-size:12px;font-weight:600;color:var(--text2);cursor:pointer;background:var(--bg2);transition:all .2s;font-family:var(--font)}
+.ab svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2}
+.ab:hover{border-color:var(--or);color:var(--or); transform: translateY(-1px);}
 .ab.ok{color:var(--success-text);border-color:var(--success-text)}
 
-.dots{display:flex;align-items:center;gap:6px;padding:1.75rem 1.5rem}
-.dot{width:7px;height:7px;border-radius:50%;background:var(--or);animation:pp 1.2s ease-in-out infinite}
+.dots{display:flex;align-items:center;justify-content: center;gap:8px;padding:3rem 2rem}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--or);animation:pp 1.4s ease-in-out infinite}
 .dot:nth-child(2){animation-delay:.2s}
 .dot:nth-child(3){animation-delay:.4s}
-@keyframes pp{0%,80%,100%{opacity:.15;transform:scale(.7)}40%{opacity:1;transform:scale(1)}}
+@keyframes pp{0%,80%,100%{opacity:.2;transform:scale(.6)}40%{opacity:1;transform:scale(1)}}
 
-.sb{padding:1.5rem;font-size:14px;line-height:1.9;color:var(--text)}
-.concept-line{background:rgba(232,97,42,0.06);border-left:3px solid var(--or);padding:10px 14px;border-radius:0 8px 8px 0;margin-bottom:1.25rem;font-size:13px;color:var(--text2)}
-.concept-line strong{color:var(--or);font-weight:600}
-.step-row{display:flex;gap:10px;margin:8px 0;align-items:flex-start;line-height:1.75}
-.step-num{color:var(--or);font-weight:700;font-family:var(--mono);font-size:13px;min-width:22px;flex-shrink:0;padding-top:1px}
+.sb{padding:2rem;font-size:15px;line-height:1.8;color:var(--text)}
+.sb p{margin-bottom:14px}
+
+/* Enhanced Concept Block */
+.concept-line{background:linear-gradient(to right, var(--orl), transparent);border-left:4px solid var(--or);padding:14px 18px;border-radius:0 12px 12px 0;margin-bottom:1.5rem;font-size:14px;color:var(--text); display: flex; gap: 12px; align-items: flex-start;}
+.concept-line svg {width: 20px; height: 20px; flex-shrink: 0; fill: var(--or); margin-top: 2px;}
+.concept-line div {flex: 1;}
+.concept-line strong{color:var(--or);font-weight:700; letter-spacing: 0.3px;}
+
+/* Enhanced Steps UI */
+.step-row{display:flex;gap:16px;margin:16px 0;align-items:flex-start;line-height:1.7; background: var(--bg3); padding: 16px 20px; border-radius: 16px; border: 1px solid var(--border); transition: border-color 0.2s;}
+.step-row:hover {border-color: rgba(255,255,255,0.2);}
+[data-theme="light"] .step-row:hover {border-color: rgba(0,0,0,0.2);}
+.step-num{background:var(--or);color:white;font-weight:700;font-family:var(--mono);font-size:13px;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0; box-shadow: 0 2px 8px var(--orl);}
 .step-content{flex:1;color:var(--text)}
-.option-row{display:flex;gap:10px;margin:7px 0;align-items:flex-start;padding:8px 12px;border-radius:8px;background:var(--bg3);border:0.5px solid var(--border)}
-.option-correct{background:rgba(74,222,128,0.06);border-color:rgba(74,222,128,0.2)}
-.option-wrong{background:rgba(248,113,113,0.04);border-color:rgba(248,113,113,0.1)}
-.opt-label{font-weight:700;font-family:var(--mono);font-size:13px;min-width:28px;flex-shrink:0}
+
+/* Enhanced Options UI */
+.options-grid {display: grid; gap: 10px; margin: 16px 0;}
+.option-row{display:flex;gap:12px;align-items:center;padding:12px 16px;border-radius:12px;background:var(--bg3);border:1px solid var(--border); transition: transform 0.2s;}
+.option-correct{background:var(--success-bg);border-color:var(--success-border);}
+.option-wrong{background:var(--danger-bg);border-color:var(--danger-border); opacity: 0.7;}
+.opt-label{font-weight:700;font-family:var(--mono);font-size:14px;min-width:30px;flex-shrink:0; text-align: center;}
 .opt-correct .opt-label{color:var(--success-text)}
 .opt-wrong .opt-label{color:var(--danger-text)}
-.opt-mark{font-size:12px;min-width:16px;flex-shrink:0}
-.opt-text{flex:1;font-size:13px;color:var(--text2)}
-.ans-box{background:var(--orl);border:0.5px solid rgba(232,97,42,0.3);border-radius:12px;padding:14px 18px;margin-top:1.25rem;display:flex;align-items:center;gap:10px}
-.ans-arrow{color:var(--or);font-size:18px;font-weight:700;flex-shrink:0}
-.ans-text{font-weight:700;font-size:15px;color:var(--text);font-family:var(--mono)}
-.sb p{margin-bottom:10px}
-.sb h3{font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.8px;margin:14px 0 6px}
-.sb code{font-family:var(--mono);font-size:12px;background:var(--bg3);padding:2px 6px;border-radius:4px}
-.sb pre{background:var(--bg3);padding:12px;border-radius:10px;overflow-x:auto;margin:10px 0;font-size:13px}
+.opt-mark{font-size:16px;min-width:20px;flex-shrink:0; text-align: center; display: flex; align-items: center;}
+.opt-text{flex:1;font-size:14px;color:var(--text)}
+
+/* Enhanced Answer Box */
+.ans-box{background:linear-gradient(135deg, var(--orl) 0%, transparent 100%);border:1px solid var(--border); border-left: 4px solid var(--or); border-radius:16px;padding:20px 24px;margin-top:2rem;display:flex;align-items:center;gap:16px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);}
+.ans-icon{background: var(--or); color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 2px 10px var(--orl);}
+.ans-icon svg {width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round;}
+.ans-content {flex: 1;}
+.ans-label {font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--or); font-weight: 700; margin-bottom: 4px;}
+.ans-text{font-weight:700;font-size:16px;color:var(--text);font-family:var(--mono)}
+
+.sb h3{font-size:13px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin:24px 0 12px; font-family: var(--mono);}
+.sb code{font-family:var(--mono);font-size:13px;background:var(--bg2); border: 1px solid var(--border); padding:3px 6px;border-radius:6px; color: var(--or);}
+.sb pre{background:var(--bg2); border: 1px solid var(--border); padding:16px;border-radius:12px;overflow-x:auto;margin:16px 0;font-size:14px; box-shadow: inset 0 2px 10px rgba(0,0,0,0.05);}
 .mjx-chtml{overflow-x:auto}
-.display-math{text-align:center;margin:12px 0;overflow-x:auto;padding:4px 0}
+.display-math{text-align:center;margin:16px 0;overflow-x:auto;padding:12px 0; background: var(--bg3); border-radius: 12px; border: 1px solid var(--border2);}
 
-.hist-wrap{margin-top:1.5rem}
-.ht{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
-.hl{font-size:11px;font-family:var(--mono);color:var(--text3);text-transform:uppercase;letter-spacing:.6px}
-.hc{font-size:11px;font-family:var(--mono);color:var(--text3);background:none;border:none;cursor:pointer;padding:0}
-.hc:hover{color:var(--danger-text)}
-.hi-list{display:flex;flex-direction:column;gap:5px}
-.hi{padding:11px 14px;background:var(--bg2);border-radius:12px;cursor:pointer;border:0.5px solid transparent;transition:all .13s}
-.hi:hover{border-color:var(--border);background:var(--bg3)}
-.hi-q{font-size:13px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.hi-m{font-size:11px;color:var(--text3);font-family:var(--mono);margin-top:3px}
+.hist-wrap{margin-top:2rem}
+.ht{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.hl{font-size:12px;font-family:var(--mono);color:var(--text3);text-transform:uppercase;letter-spacing:1px; font-weight: 600;}
+.hc{font-size:12px;font-family:var(--mono);color:var(--text3);background:var(--bg2);border:1px solid var(--border); border-radius: 6px; cursor:pointer;padding:4px 10px; transition: all 0.2s;}
+.hc:hover{color:var(--danger-text); border-color: var(--danger-text);}
+.hi-list{display:flex;flex-direction:column;gap:8px}
+.hi{padding:14px 18px;background:var(--bg2);border-radius:16px;cursor:pointer;border:1px solid var(--border);transition:all .2s; box-shadow: var(--shadow);}
+.hi:hover{border-color:var(--or); transform: translateX(4px);}
+.hi-q{font-size:14px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hi-m{font-size:12px;color:var(--text3);font-family:var(--mono);margin-top:6px}
 
-.err{padding:12px 16px;background:var(--danger-bg);color:var(--danger-text);border-radius:12px;font-size:13px;margin-bottom:1rem;font-weight:500;display:none}
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--text);color:var(--bg);padding:10px 20px;border-radius:10px;font-size:13px;font-weight:600;opacity:0;transition:opacity .3s;pointer-events:none;z-index:999;font-family:var(--font);white-space:nowrap}
-.toast.show{opacity:1}
+.err{padding:14px 20px;background:var(--danger-bg);color:var(--danger-text); border: 1px solid var(--danger-border); border-left: 4px solid var(--danger-text); border-radius:12px;font-size:14px;margin-bottom:1.5rem;font-weight:600;display:none}
+.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--text);color:var(--bg);padding:12px 24px;border-radius:30px;font-size:14px;font-weight:600;opacity:0;transition:all .3s cubic-bezier(0.16, 1, 0.3, 1);pointer-events:none;z-index:999;font-family:var(--font);white-space:nowrap; box-shadow: 0 10px 30px rgba(0,0,0,0.2);}
+.toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
 
 @media print {
   body { background: white; color: black; }
@@ -174,7 +197,9 @@ textarea.qi::placeholder{color:var(--text3);font-weight:400}
   #solcard, #solcard * { visibility: visible; }
   #solcard { position: absolute; left: 0; top: 0; width: 100%; border: none; box-shadow: none; background: white; }
   .sh-r { display: none; }
-  .sb, .sh-title, .step-content, .ans-text { color: black !important; }
+  .sb, .sh-title, .step-content, .ans-text, .concept-line strong { color: black !important; }
+  .step-row, .ans-box { border: 1px solid #ccc; background: white !important; }
+  .display-math {background: transparent; border: none;}
 }
 </style>
 </head>
@@ -227,7 +252,7 @@ textarea.qi::placeholder{color:var(--text3);font-weight:400}
       <div class="input-wrapper">
         <textarea class="qi" id="qinput" placeholder="Ask anything — integration, Newton's laws, organic chemistry..."></textarea>
         <button class="mic-btn" id="mic-btn" onclick="toggleSpeech()" title="Dictate question">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
             <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
             <line x1="12" y1="19" x2="12" y2="23"></line>
@@ -241,29 +266,28 @@ textarea.qi::placeholder{color:var(--text3);font-weight:400}
       <div class="upzone" id="upzone" onclick="document.getElementById('imgf').click()" ondragover="dov(event)" ondragleave="dlv(event)" ondrop="ddrop(event)">
         <input type="file" id="imgf" accept="image/*" onchange="hf(event)">
         <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-        <p>Click or drag your question image</p>
+        <p>Click, drag, or <kbd>Ctrl+V</kbd> your question image</p>
         <span>JPG · PNG · WEBP (Auto-compressed)</span>
         
         <div class="compressing-overlay" id="comp-overlay">
-          <div class="dot" style="animation-delay: 0s;"></div>
-          <div class="compressing-text">Optimizing image...</div>
+          <div class="dots"><div class="dot" style="background:white"></div><div class="dot" style="background:white"></div><div class="dot" style="background:white"></div></div>
+          <div class="compressing-text" style="color:white; margin-top:0">Optimizing image...</div>
         </div>
       </div>
 
       <div class="pw" id="pw">
-        <img id="pthumb" src="" alt="question">
-        <textarea class="subt" id="iq" placeholder="Specific question? (optional)"></textarea>
-        <br>
-        <button class="rmv" onclick="rmI()">
-          <svg style="width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        <button class="rmv" onclick="rmI()" title="Remove Image">
+          <svg style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
           Remove
         </button>
+        <img id="pthumb" src="" alt="question">
+        <textarea class="subt" id="iq" placeholder="Specific question about this image? (optional)"></textarea>
       </div>
     </div>
 
     <div class="div"></div>
     <div class="foot-row">
-      <span class="shortcut-hint" id="shortcut-hint">Ctrl + Enter to solve</span>
+      <span class="shortcut-hint" id="shortcut-hint"><kbd>Ctrl</kbd> + <kbd>Enter</kbd> to solve</span>
       <button class="sbtn" id="sbtn" onclick="solve()">
         Solve
         <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -276,7 +300,7 @@ textarea.qi::placeholder{color:var(--text3);font-weight:400}
   <div class="sol-card" id="solcard" style="display:none">
     <div class="sh">
       <div class="sh-l">
-        <span class="sh-title">Solution</span>
+        <span class="sh-title">Solution Breakdown</span>
         <span class="pill g" id="spill">All</span>
         <span class="pill o">JEE concise</span>
       </div>
@@ -289,10 +313,6 @@ textarea.qi::placeholder{color:var(--text3);font-weight:400}
           <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
           Copy
         </button>
-        <button class="ab" onclick="shSol()">
-          <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-          Share
-        </button>
       </div>
     </div>
     <div id="ldots" class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
@@ -302,7 +322,7 @@ textarea.qi::placeholder{color:var(--text3);font-weight:400}
   <div class="hist-wrap" id="histwrap" style="display:none">
     <div class="ht">
       <span class="hl">// recent</span>
-      <button class="hc" onclick="clH()">clear</button>
+      <button class="hc" onclick="clH()">Clear History</button>
     </div>
     <div class="hi-list" id="histlist"></div>
   </div>
@@ -314,6 +334,21 @@ textarea.qi::placeholder{color:var(--text3);font-weight:400}
 const WH="https://arpit17062000.app.n8n.cloud/webhook/jee-solve";
 let mode='text',subj='All',iB64=null,lastS='';
 let hist = JSON.parse(localStorage.getItem('jee_history')) || [];
+
+// 1. GLOBAL CTRL+V PASTE SUPPORT FOR IMAGES
+document.addEventListener('paste', function(e) {
+  const items = (e.clipboardData || e.originalEvent.clipboardData).items;
+  for (let index in items) {
+    const item = items[index];
+    if (item.kind === 'file' && item.type.includes('image/')) {
+      const blob = item.getAsFile();
+      setMode('image'); // Switch to image mode automatically
+      pf(blob); // Pass file to existing compression/preview pipeline
+      e.preventDefault();
+      break;
+    }
+  }
+});
 
 // SPEECH TO TEXT API
 let recognition;
@@ -344,7 +379,6 @@ if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
     document.getElementById('mic-btn').classList.remove('recording');
   };
 } else {
-  // Hide mic button if browser doesn't support it (e.g., Firefox without flags)
   window.addEventListener('DOMContentLoaded', () => {
     document.getElementById('mic-btn').style.display = 'none';
   });
@@ -372,7 +406,6 @@ function compressImage(file, callback) {
     const img = new Image();
     img.src = event.target.result;
     img.onload = () => {
-      // Scale down if wider than 1200px (Plenty for AI to read)
       const MAX_WIDTH = 1200;
       let width = img.width;
       let height = img.height;
@@ -388,7 +421,6 @@ function compressImage(file, callback) {
       const ctx = canvas.getContext('2d');
       ctx.drawImage(img, 0, 0, width, height);
       
-      // Output highly compressed JPEG
       const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.8);
       const base64Data = compressedDataUrl.split(',')[1];
       
@@ -464,7 +496,6 @@ function ddrop(e){e.preventDefault();const f=e.dataTransfer.files[0];if(f)pf(f);
 function hf(e){const f=e.target.files[0];if(f)pf(f)}
 
 function pf(f){
-  // Using the new compression pipeline
   compressImage(f, (base64, dataUrl) => {
     iB64 = base64;
     document.getElementById('pthumb').src = dataUrl;
@@ -483,16 +514,19 @@ function rmI(){
 function showToast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500)}
 function showErr(m){const e=document.getElementById('errd');e.textContent=m;e.style.display='block';setTimeout(()=>e.style.display='none',5000)}
 
+// 2. ENHANCED PARSER & UI RENDERER
 function renderSolution(raw) {
   const lines = raw.split('\n');
   let html = '';
   let stepCounter = 0;
   let inMathBlock = false;
   let mathBuffer = [];
+  let inOptionsBlock = false;
 
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i].trim();
 
+    // Handle Display Math
     if (inMathBlock) {
       mathBuffer.push(lines[i]); 
       if (line === '$$' || line === '\\]' || line.endsWith('$$') || line.endsWith('\\]')) {
@@ -514,27 +548,43 @@ function renderSolution(raw) {
       continue;
     }
 
-    if (!line) continue;
+    if (!line) {
+        if(inOptionsBlock) { html += `</div>`; inOptionsBlock = false; }
+        continue;
+    }
 
+    // Handle Concepts Callout UI
     if (line.startsWith('**Concept/Formula Used:**') || line.startsWith('**Concept:') || line.startsWith('Concept/Formula Used:')) {
       const content = line.replace(/\*\*Concept\/Formula Used:\*\*/, '').replace(/\*\*Concept:/, '').replace('Concept/Formula Used:', '').trim();
-      html += `<div class="concept-line"><strong>Concept:</strong> ${content}</div>`;
+      html += `<div class="concept-line">
+                 <svg viewBox="0 0 24 24"><path d="M9 18h6v2H9zM12 2a7 7 0 0 0-7 7c0 2.5 1.5 4.8 3.8 6h6.4C17.5 13.8 19 11.5 19 9a7 7 0 0 0-7-7z"/></svg>
+                 <div><strong>Concept:</strong> ${renderInline(content)}</div>
+               </div>`;
       continue;
     }
 
+    // Handle Answer Box UI
     if (line.match(/^\*\*Answer:/i) || line.match(/^Answer:/i)) {
       const content = line.replace(/\*\*Answer:\*\*/i, '').replace(/^Answer:/i, '').trim();
-      html += `<div class="ans-box"><span class="ans-arrow">⟹</span><span class="ans-text">${content}</span></div>`;
+      html += `<div class="ans-box">
+                 <div class="ans-icon"><svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg></div>
+                 <div class="ans-content">
+                    <div class="ans-label">Final Answer</div>
+                    <div class="ans-text">${renderInline(content)}</div>
+                 </div>
+               </div>`;
       continue;
     }
 
+    // Handle Options Grid UI
     const optMatch = line.match(/^\(([A-D])\)\s*(✓|✗|CORRECT|INCORRECT|correct|incorrect)\s*[—-]?\s*(.*)/);
     if (optMatch) {
+      if (!inOptionsBlock) { html += `<div class="options-grid">`; inOptionsBlock = true; }
       const letter = optMatch[1];
       const isCorrect = optMatch[2] === '✓' || optMatch[2].toUpperCase() === 'CORRECT';
       const reason = optMatch[3];
       const cls = isCorrect ? 'option-correct' : 'option-wrong';
-      const mark = isCorrect ? '✓' : '✗';
+      const mark = isCorrect ? '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>' : '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>';
       const markColor = isCorrect ? 'var(--success-text)' : 'var(--danger-text)';
       html += `<div class="option-row ${cls}">
         <span class="opt-label" style="color:${markColor}">(${letter})</span>
@@ -544,11 +594,14 @@ function renderSolution(raw) {
       continue;
     }
 
+    if (inOptionsBlock && !optMatch) { html += `</div>`; inOptionsBlock = false; }
+
+    // Handle Steps Card UI
     const stepMatch = line.match(/^(\d+)\.\s+(.+)/);
     if (stepMatch) {
-      stepCounter++;
+      stepCounter = parseInt(stepMatch[1]);
       html += `<div class="step-row">
-        <span class="step-num">${stepCounter}.</span>
+        <span class="step-num">${stepCounter}</span>
         <span class="step-content">${renderInline(stepMatch[2])}</span>
       </div>`;
       continue;
@@ -560,16 +613,15 @@ function renderSolution(raw) {
     }
 
     if (line.startsWith('- ') || line.startsWith('• ')) {
-      html += `<div class="step-row"><span class="step-num">•</span><span class="step-content">${renderInline(line.slice(2))}</span></div>`;
+      html += `<div class="step-row"><span class="step-num" style="background:var(--bg3); border:2px solid var(--or); width:14px; height:14px; margin-top:5px; margin-left:7px;"></span><span class="step-content">${renderInline(line.slice(2))}</span></div>`;
       continue;
     }
 
     html += `<p>${renderInline(line)}</p>`;
   }
   
-  if (inMathBlock && mathBuffer.length > 0) {
-      html += `<div class="display-math">${mathBuffer.join('\n')}</div>`;
-  }
+  if (inOptionsBlock) html += `</div>`;
+  if (inMathBlock && mathBuffer.length > 0) html += `<div class="display-math">${mathBuffer.join('\n')}</div>`;
   return html;
 }
 
@@ -601,6 +653,7 @@ function lH(i){
   const input = document.getElementById('qinput');
   input.value=hist[i].q;
   input.dispatchEvent(new Event('input'));
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function clH(){
@@ -613,13 +666,9 @@ function cpSol(){
   if(!lastS)return;
   navigator.clipboard.writeText(lastS).then(()=>{
     const b=document.getElementById('cpbtn');
-    b.classList.add('ok');b.textContent='Copied!';
-    setTimeout(()=>{b.classList.remove('ok');b.innerHTML='<svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy'},2000);
+    b.classList.add('ok');b.innerHTML='<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg> Copied!';
+    setTimeout(()=>{b.classList.remove('ok');b.innerHTML='<svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy'},2000);
   });
-}
-function shSol(){
-  if(!lastS)return;
-  navigator.clipboard.writeText('JEE Solution ('+subj+')\n\n'+lastS+'\n\n— JEE Solver by Arpit Agarwal').then(()=>showToast('Copied for sharing!'));
 }
 
 async function solve(){
@@ -635,7 +684,7 @@ async function solve(){
     if(!qt){showErr('Please enter a question.');return;}
     payload.question=qt;
   } else {
-    if(!iB64){showErr('Please upload an image.');return;}
+    if(!iB64){showErr('Please upload or paste an image.');return;}
     qt=document.getElementById('iq').value.trim()||'Solve this problem';
     payload.question=qt;
     payload.image_base64=iB64;
@@ -665,25 +714,26 @@ async function solve(){
     body.style.display='block';
     addH(qt);
     
-    // Add light vibration on mobile for success
     if (navigator.vibrate) navigator.vibrate(50);
     
     if(window.MathJax){
       MathJax.typesetClear([body]);
       MathJax.typesetPromise([body]).catch(e=>console.log('MathJax:',e));
     }
+    
+    card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    
   } catch(e){
     dots.style.display='none';
-    body.innerHTML='<p style="color:var(--danger-text)">'+e.message+'</p>';
+    body.innerHTML='<p style="color:var(--danger-text); font-weight:600;"><svg viewBox="0 0 24 24" style="width:18px;height:18px;vertical-align:middle;margin-right:8px;stroke:currentColor;fill:none;stroke-width:2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>'+e.message+'</p>';
     body.style.display='block';
-    // Add error vibration pattern on mobile
     if (navigator.vibrate) navigator.vibrate([100, 50, 100]);
   } finally {
     btn.disabled=false;
     mainCard.classList.remove('disabled');
-    btn.innerHTML='Solve <svg viewBox="0 0 24 24" style="width:15px;height:15px;fill:white"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
+    btn.innerHTML='Solve <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
   }
 }
 </script>
 </body>
-</html>
+</html>ee
