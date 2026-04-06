@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>JEE Solver — by Arpit Agarwal</title>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=DM+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
 <script>
 window.MathJax = {
   tex: {
@@ -113,7 +115,6 @@ textarea.qi::placeholder{color:var(--text3);font-weight:400}
 .rmv{position: absolute; top: 10px; right: 10px; display:inline-flex;align-items:center;gap:6px;font-size:12px; font-weight: 600; color: white; cursor:pointer;background:rgba(0,0,0,0.6); backdrop-filter: blur(4px); border:none; padding: 6px 12px; border-radius: 20px; font-family:var(--font); transition: background 0.2s;}
 .rmv:hover{background:var(--danger-text);}
 
-/* Premium Solution Card Styles */
 .sol-card{background:var(--bg2);border:1px solid var(--border);border-radius:24px;overflow:hidden;margin-bottom:2rem;box-shadow:var(--shadow);animation:up .4s cubic-bezier(0.16, 1, 0.3, 1); transition: background 0.3s, border-color 0.3s}
 @keyframes up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 
@@ -135,23 +136,21 @@ textarea.qi::placeholder{color:var(--text3);font-weight:400}
 .dot:nth-child(3){animation-delay:.4s}
 @keyframes pp{0%,80%,100%{opacity:.2;transform:scale(.6)}40%{opacity:1;transform:scale(1)}}
 
-.sb{padding:2rem;font-size:15px;line-height:1.8;color:var(--text)}
+/* Text Layout Fixes */
+.sb{padding:2rem;font-size:15px;line-height:1.8;color:var(--text); overflow-wrap: break-word; word-wrap: break-word; word-break: break-word; -webkit-hyphens: auto; hyphens: auto;}
 .sb p{margin-bottom:14px}
 
-/* Enhanced Concept Block */
 .concept-line{background:linear-gradient(to right, var(--orl), transparent);border-left:4px solid var(--or);padding:14px 18px;border-radius:0 12px 12px 0;margin-bottom:1.5rem;font-size:14px;color:var(--text); display: flex; gap: 12px; align-items: flex-start;}
 .concept-line svg {width: 20px; height: 20px; flex-shrink: 0; fill: var(--or); margin-top: 2px;}
 .concept-line div {flex: 1;}
 .concept-line strong{color:var(--or);font-weight:700; letter-spacing: 0.3px;}
 
-/* Enhanced Steps UI */
 .step-row{display:flex;gap:16px;margin:16px 0;align-items:flex-start;line-height:1.7; background: var(--bg3); padding: 16px 20px; border-radius: 16px; border: 1px solid var(--border); transition: border-color 0.2s;}
 .step-row:hover {border-color: rgba(255,255,255,0.2);}
 [data-theme="light"] .step-row:hover {border-color: rgba(0,0,0,0.2);}
 .step-num{background:var(--or);color:white;font-weight:700;font-family:var(--mono);font-size:13px;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0; box-shadow: 0 2px 8px var(--orl);}
 .step-content{flex:1;color:var(--text)}
 
-/* Enhanced Options UI */
 .options-grid {display: grid; gap: 10px; margin: 16px 0;}
 .option-row{display:flex;gap:12px;align-items:center;padding:12px 16px;border-radius:12px;background:var(--bg3);border:1px solid var(--border); transition: transform 0.2s;}
 .option-correct{background:var(--success-bg);border-color:var(--success-border);}
@@ -162,7 +161,6 @@ textarea.qi::placeholder{color:var(--text3);font-weight:400}
 .opt-mark{font-size:16px;min-width:20px;flex-shrink:0; text-align: center; display: flex; align-items: center;}
 .opt-text{flex:1;font-size:14px;color:var(--text)}
 
-/* Enhanced Answer Box */
 .ans-box{background:linear-gradient(135deg, var(--orl) 0%, transparent 100%);border:1px solid var(--border); border-left: 4px solid var(--or); border-radius:16px;padding:20px 24px;margin-top:2rem;display:flex;align-items:center;gap:16px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);}
 .ans-icon{background: var(--or); color: white; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: 0 2px 10px var(--orl);}
 .ans-icon svg {width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round;}
@@ -174,7 +172,10 @@ textarea.qi::placeholder{color:var(--text3);font-weight:400}
 .sb code{font-family:var(--mono);font-size:13px;background:var(--bg2); border: 1px solid var(--border); padding:3px 6px;border-radius:6px; color: var(--or);}
 .sb pre{background:var(--bg2); border: 1px solid var(--border); padding:16px;border-radius:12px;overflow-x:auto;margin:16px 0;font-size:14px; box-shadow: inset 0 2px 10px rgba(0,0,0,0.05);}
 .mjx-chtml{overflow-x:auto}
-.display-math{text-align:center;margin:16px 0;overflow-x:auto;padding:12px 0; background: var(--bg3); border-radius: 12px; border: 1px solid var(--border2);}
+.display-math{text-align:center;margin:16px 0; max-width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; padding:12px 0; background: var(--bg3); border-radius: 12px; border: 1px solid var(--border2); box-sizing: border-box;}
+
+mjx-container[display="true"] { max-width: 100%; overflow-x: auto !important; overflow-y: hidden; }
+mjx-math { white-space: normal; }
 
 .hist-wrap{margin-top:2rem}
 .ht{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
@@ -191,15 +192,42 @@ textarea.qi::placeholder{color:var(--text3);font-weight:400}
 .toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--text);color:var(--bg);padding:12px 24px;border-radius:30px;font-size:14px;font-weight:600;opacity:0;transition:all .3s cubic-bezier(0.16, 1, 0.3, 1);pointer-events:none;z-index:999;font-family:var(--font);white-space:nowrap; box-shadow: 0 10px 30px rgba(0,0,0,0.2);}
 .toast.show{opacity:1; transform:translateX(-50%) translateY(0);}
 
-@media print {
-  body { background: white; color: black; }
-  body * { visibility: hidden; }
-  #solcard, #solcard * { visibility: visible; }
-  #solcard { position: absolute; left: 0; top: 0; width: 100%; border: none; box-shadow: none; background: white; }
-  .sh-r { display: none; }
-  .sb, .sh-title, .step-content, .ans-text, .concept-line strong { color: black !important; }
-  .step-row, .ans-box { border: 1px solid #ccc; background: white !important; }
-  .display-math {background: transparent; border: none;}
+/* PREMIUM PDF EXPORT STYLES (Forces clean white document) */
+.pdf-export-mode {
+  background: white !important;
+  color: black !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  margin: 0 !important;
+}
+.pdf-export-mode * {
+  color: black !important;
+}
+.pdf-export-mode .sh-r { display: none !important; }
+.pdf-export-mode .sh { background: transparent !important; border-bottom: 2px solid #eaeaea !important; }
+.pdf-export-mode .step-row, .pdf-export-mode .ans-box, .pdf-export-mode .display-math, .pdf-export-mode .option-row { 
+  background: transparent !important; 
+  border: 1px solid #ddd !important; 
+}
+.pdf-export-mode .concept-line { border-left-color: black !important; }
+.pdf-export-mode .concept-line svg { fill: black !important; }
+.pdf-export-mode .step-num { background: black !important; color: white !important; }
+.pdf-export-mode .ans-icon { background: black !important; color: white !important; }
+
+/* Mobile Adjustments */
+@media (max-width: 600px) {
+  .wrap { padding: 1rem 0.8rem 3rem; }
+  .card, .sol-card { border-radius: 16px; padding: 1.25rem; }
+  .sb { padding: 1.25rem; font-size: 14px; }
+  .sh { padding: 1rem 1.25rem; flex-direction: column; align-items: flex-start; }
+  .sh-r { margin-top: 10px; width: 100%; justify-content: flex-start; }
+  .top { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .top-actions { width: 100%; justify-content: space-between; }
+  .ans-box { flex-direction: column; align-items: flex-start; gap: 8px; padding: 16px; }
+  .concept-line { flex-direction: column; gap: 4px; padding: 12px; }
+  .step-row { gap: 10px; padding: 12px; }
+  .option-row { flex-wrap: wrap; }
 }
 </style>
 </head>
@@ -305,8 +333,8 @@ textarea.qi::placeholder{color:var(--text3);font-weight:400}
         <span class="pill o">JEE concise</span>
       </div>
       <div class="sh-r">
-        <button class="ab" onclick="window.print()">
-          <svg viewBox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+        <button class="ab" id="pdf-btn" onclick="downloadPDF()">
+          <svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
           Save PDF
         </button>
         <button class="ab" id="cpbtn" onclick="cpSol()">
@@ -335,20 +363,58 @@ const WH="https://arpit17062000.app.n8n.cloud/webhook/jee-solve";
 let mode='text',subj='All',iB64=null,lastS='';
 let hist = JSON.parse(localStorage.getItem('jee_history')) || [];
 
-// 1. GLOBAL CTRL+V PASTE SUPPORT FOR IMAGES
+// 1. GLOBAL CTRL+V PASTE SUPPORT
 document.addEventListener('paste', function(e) {
   const items = (e.clipboardData || e.originalEvent.clipboardData).items;
   for (let index in items) {
     const item = items[index];
     if (item.kind === 'file' && item.type.includes('image/')) {
       const blob = item.getAsFile();
-      setMode('image'); // Switch to image mode automatically
-      pf(blob); // Pass file to existing compression/preview pipeline
+      setMode('image');
+      pf(blob); 
       e.preventDefault();
       break;
     }
   }
 });
+
+// PREMIUM PDF EXPORT FUNCTION
+function downloadPDF() {
+  const btn = document.getElementById('pdf-btn');
+  const originalHTML = btn.innerHTML;
+  btn.innerHTML = '<svg viewBox="0 0 24 24"><line x1="12" y1="2" x2="12" y2="6"></line><line x1="12" y1="18" x2="12" y2="22"></line><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"></line><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"></line><line x1="2" y1="12" x2="6" y2="12"></line><line x1="18" y1="12" x2="22" y2="12"></line><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"></line><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"></line></svg> Generating...';
+  btn.disabled = true;
+
+  const element = document.getElementById('solcard');
+  
+  // Apply specific CSS class to force clean white background for printing
+  element.classList.add('pdf-export-mode');
+
+  // Format filename logic
+  const fileNameTitle = subj === 'All' ? 'Problem' : subj;
+  
+  const opt = {
+    margin:       [10, 10, 10, 10], // Top, Left, Bottom, Right
+    filename:     `JEE_Solution_${fileNameTitle}.pdf`,
+    image:        { type: 'jpeg', quality: 1.0 },
+    html2canvas:  { scale: 2, useCORS: true, logging: false },
+    jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+  };
+
+  // Generate and save
+  html2pdf().set(opt).from(element).save().then(() => {
+    // Restore UI
+    element.classList.remove('pdf-export-mode');
+    btn.innerHTML = originalHTML;
+    btn.disabled = false;
+    showToast('PDF Downloaded Successfully!');
+  }).catch(err => {
+    element.classList.remove('pdf-export-mode');
+    btn.innerHTML = originalHTML;
+    btn.disabled = false;
+    showErr('Failed to generate PDF.');
+  });
+}
 
 // SPEECH TO TEXT API
 let recognition;
@@ -370,7 +436,7 @@ if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
     if (finalTranscript) {
       const input = document.getElementById('qinput');
       input.value += (input.value.length > 0 ? ' ' : '') + finalTranscript;
-      input.dispatchEvent(new Event('input')); // trigger resize
+      input.dispatchEvent(new Event('input')); 
     }
   };
 
@@ -514,7 +580,6 @@ function rmI(){
 function showToast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500)}
 function showErr(m){const e=document.getElementById('errd');e.textContent=m;e.style.display='block';setTimeout(()=>e.style.display='none',5000)}
 
-// 2. ENHANCED PARSER & UI RENDERER
 function renderSolution(raw) {
   const lines = raw.split('\n');
   let html = '';
@@ -526,7 +591,6 @@ function renderSolution(raw) {
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i].trim();
 
-    // Handle Display Math
     if (inMathBlock) {
       mathBuffer.push(lines[i]); 
       if (line === '$$' || line === '\\]' || line.endsWith('$$') || line.endsWith('\\]')) {
@@ -553,7 +617,6 @@ function renderSolution(raw) {
         continue;
     }
 
-    // Handle Concepts Callout UI
     if (line.startsWith('**Concept/Formula Used:**') || line.startsWith('**Concept:') || line.startsWith('Concept/Formula Used:')) {
       const content = line.replace(/\*\*Concept\/Formula Used:\*\*/, '').replace(/\*\*Concept:/, '').replace('Concept/Formula Used:', '').trim();
       html += `<div class="concept-line">
@@ -563,7 +626,6 @@ function renderSolution(raw) {
       continue;
     }
 
-    // Handle Answer Box UI
     if (line.match(/^\*\*Answer:/i) || line.match(/^Answer:/i)) {
       const content = line.replace(/\*\*Answer:\*\*/i, '').replace(/^Answer:/i, '').trim();
       html += `<div class="ans-box">
@@ -576,7 +638,6 @@ function renderSolution(raw) {
       continue;
     }
 
-    // Handle Options Grid UI
     const optMatch = line.match(/^\(([A-D])\)\s*(✓|✗|CORRECT|INCORRECT|correct|incorrect)\s*[—-]?\s*(.*)/);
     if (optMatch) {
       if (!inOptionsBlock) { html += `<div class="options-grid">`; inOptionsBlock = true; }
@@ -596,7 +657,6 @@ function renderSolution(raw) {
 
     if (inOptionsBlock && !optMatch) { html += `</div>`; inOptionsBlock = false; }
 
-    // Handle Steps Card UI
     const stepMatch = line.match(/^(\d+)\.\s+(.+)/);
     if (stepMatch) {
       stepCounter = parseInt(stepMatch[1]);
@@ -736,4 +796,4 @@ async function solve(){
 }
 </script>
 </body>
-</html>ee
+</html>
