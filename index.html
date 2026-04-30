@@ -409,11 +409,8 @@ function compressImage(file, callback) {
         canvas.height = outH;
 
         const ctx = canvas.getContext('2d');
-
-        // White background improves text and diagram reading for AI vision
         ctx.fillStyle = '#ffffff';
         ctx.fillRect(0, 0, outW, outH);
-
         ctx.drawImage(img, sx, sy, sw, sh, 0, 0, outW, outH);
 
         const dataUrl = canvas.toDataURL('image/jpeg', quality);
@@ -424,19 +421,81 @@ function compressImage(file, callback) {
         };
       }
 
-      // Full uploaded JEE question image, high quality
-      const full = makeCanvasBase64(0, 0, img.width, img.height, 2600, 0.97);
+      function detectQuestionArea() {
+        const scanCanvas = document.createElement('canvas');
+        const maxScanW = 900;
+        const scale = img.width > maxScanW ? maxScanW / img.width : 1;
 
-      // Focused version of the SAME image, not a separate problem.
-      // It removes a small border and helps the AI read small text/labels better.
-      const cropMarginX = Math.floor(img.width * 0.03);
-      const cropMarginY = Math.floor(img.height * 0.03);
+        scanCanvas.width = Math.round(img.width * scale);
+        scanCanvas.height = Math.round(img.height * scale);
+
+        const scanCtx = scanCanvas.getContext('2d');
+        scanCtx.drawImage(img, 0, 0, scanCanvas.width, scanCanvas.height);
+
+        const { width, height } = scanCanvas;
+        const data = scanCtx.getImageData(0, 0, width, height).data;
+
+        let minX = width;
+        let minY = height;
+        let maxX = 0;
+        let maxY = 0;
+
+        for (let y = 0; y < height; y += 2) {
+          for (let x = 0; x < width; x += 2) {
+            const i = (y * width + x) * 4;
+            const r = data[i];
+            const g = data[i + 1];
+            const b = data[i + 2];
+
+            const brightness = (r + g + b) / 3;
+            const isUseful =
+              brightness > 70 && // ignores black app background
+              !(r < 40 && g < 40 && b < 40); // ignores very dark area
+
+            if (isUseful) {
+              minX = Math.min(minX, x);
+              minY = Math.min(minY, y);
+              maxX = Math.max(maxX, x);
+              maxY = Math.max(maxY, y);
+            }
+          }
+        }
+
+        if (minX >= maxX || minY >= maxY) {
+          return {
+            sx: 0,
+            sy: 0,
+            sw: img.width,
+            sh: img.height
+          };
+        }
+
+        const pad = 24;
+
+        let sx = Math.max(0, Math.floor((minX - pad) / scale));
+        let sy = Math.max(0, Math.floor((minY - pad) / scale));
+        let ex = Math.min(img.width, Math.ceil((maxX + pad) / scale));
+        let ey = Math.min(img.height, Math.ceil((maxY + pad) / scale));
+
+        return {
+          sx,
+          sy,
+          sw: ex - sx,
+          sh: ey - sy
+        };
+      }
+
+      // Full image for context
+      const full = makeCanvasBase64(0, 0, img.width, img.height, 2600, 0.96);
+
+      // Auto-detected actual question area
+      const area = detectQuestionArea();
 
       const focus = makeCanvasBase64(
-        cropMarginX,
-        cropMarginY,
-        img.width - cropMarginX * 2,
-        img.height - cropMarginY * 2,
+        area.sx,
+        area.sy,
+        area.sw,
+        area.sh,
         2600,
         0.98
       );
